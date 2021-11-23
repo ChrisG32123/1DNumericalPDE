@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # phi_xx = f(x,t) = 3 - 4*pi*n
 
 
-def euler_poisson_corr(N,T,L,x,x3,dx,dt, n_IC, u_IC, n_0, correlation, Gamma_0, kappa_0):
+def u_corr(N,T,L,x,x3,dx,dt, n_IC, u_IC, n_0, correlation, Gamma_0, kappa_0):
     nc = np.zeros(N)
     n3 = np.zeros(3 * N)
 
@@ -87,11 +87,11 @@ def euler_poisson_corr(N,T,L,x,x3,dx,dt, n_IC, u_IC, n_0, correlation, Gamma_0, 
         # nTot[tt] = np.sum(n) * dx
         # uTot[tt] = np.sum(u) * dx
         # phiTot[tt] = np.sum(phi) * dx
-    return nc
+    return uc
 
 
 
-def euler_poisson_nocorr(N,T,Gamma_0,dx,dt,n_IC, u_IC):
+def u_nocorr(N,T,Gamma_0,dx,dt,n_IC, u_IC):
 
     # Memory Allocation
     n = np.zeros(N)
@@ -157,17 +157,17 @@ def euler_poisson_nocorr(N,T,Gamma_0,dx,dt,n_IC, u_IC):
         # nTot[tt] = np.sum(n) * dx
         # uTot[tt] = np.sum(u) * dx
         # phiTot[tt] = np.sum(phi) * dx
-    return n
+    return u
 
 
 
     # Plotting
-def plot_solutions(dt,x, n, nc, Gamma_0, kappa_0):
+def plot_u_solutions(dt,x, u, uc, Gamma_0, kappa_0):
 
     # plt.plot(x, n_IC, label="n_IC")
-    plt.plot(x, n, label="n")
-    plt.plot(x, nc, label="nc")
-    plt.title("Density: " + "Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0) + " dt = "+ str(dt))
+    plt.plot(x, u, label="u")
+    plt.plot(x, uc, label="uc")
+    plt.title("Velocity: " + "Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0) + " dt = "+ str(dt))
     plt.legend()
     # plt.ylim(0, 2*n_0)
 
