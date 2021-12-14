@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Have c(a,b). Need c(n,k)">
-      <change afterPath="$PROJECT_DIR$/ep_corr_vs_no_corr.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/phi_corr_v_nocorr.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/save.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_corr.py" afterDir="false" />
+    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Finished">
+      <change afterPath="$PROJECT_DIR$/post243A.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/convolution_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/euler_poisson_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/euler_poisson_solver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +114,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632350577478</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Finished">
+      <created>1637709074303</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1637709074303</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,6 +139,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1. Numerical Solutions Found&#10;2. Plots with Snapshots" />
     <MESSAGE value="Have c(a,b). Need c(n,k)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Have c(a,b). Need c(n,k)" />
+    <MESSAGE value="Finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished" />
   </component>
 </project>
