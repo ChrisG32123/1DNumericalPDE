@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def solve():
+def organized_solve():
     # Parameters
     N = int(1e2)  # Grid Points
     T = int(1e3)  # Time Steps
@@ -17,7 +17,7 @@ def solve():
     dx = x[2] - x[1]  # Grid Size
     dt = 1e-3  # Time Step Size
     lambda_ = dt / dx
-    t = dt*T
+    t = dt * T
 
     n_0 = 3 / (4 * np.pi)  # Mean Density
     snaps = int(input("Number of Snapshots "))  # Number of Snapshots
@@ -48,7 +48,7 @@ def solve():
     n_IC = n_0 * np.ones(N)
     v_IC = np.zeros(N)
     for ii in range(N):
-        if ii < N/2:
+        if ii < N / 2:
             n_IC[ii] = 3 * n_0 / 2
             v_IC[ii] = 1
         else:
@@ -74,11 +74,9 @@ def solve():
     def f_vc(nc_, vc_, phic_, f_corr_):
         return .5 * vc_ * vc_ + np.log(nc_) + Gamma_0 * phic_ + f_corr_
 
-    # No Correlation
-    for tt in range(T + 1):
-        # Phi - A * phi = b
+    def compute_phi(n_):
         # Define b
-        b = 3 - 4 * np.pi * dx * dx * n
+        b = 3 - 4 * np.pi * dx * dx * n_
         b = b - np.mean(b)
         # First sweep
         A[0] = -0.5
@@ -90,18 +88,25 @@ def solve():
         phi[0] = b[N - 1] - b[N - 2]
         for ii in range(1, N - 1):
             phi[ii] = (b[ii - 1] - phi[ii - 1]) / A[ii - 1]
+        return phi
 
-        F_n = f_n(n, v)
-        F_v = f_v(n, v, phi)
+    def LF_scheme(n_,v_,F_n_,F_v_):
+        for ii in range(0, N - 1):
+            n_[ii] = .5 * (n_[ii + 1] + n_[ii - 1]) - .5 * lambda_ * (F_n_[ii + 1] - F_n_[ii - 1])
+            v_[ii] = .5 * (v_[ii + 1] + v_[ii - 1]) - .5 * lambda_ * (F_v_[ii + 1] - F_v_[ii - 1])
+        n_[N - 1] = .5 * (n_[0] + n_[N - 2]) - .5 * lambda_ * (F_n_[0] - F_n_[N - 2])
+        v_[N - 1] = .5 * (v_[0] + v_[N - 2]) - .5 * lambda_ * (F_v_[0] - F_v_[N - 2])
+        return n_,v_
+
+    # No Correlation
+    for tt in range(T + 1):
+        # Phi - A * phi = b
+        phi = compute_phi(n)
 
         # Lax-Friedrichs
-        n[0] = .5 * (n[1] + n[-1]) - .5 * lambda_ * (F_n[1] - F_n[-1])
-        v[0] = .5 * (v[1] + v[-1]) - .5 * lambda_ * (F_v[1] - F_v[-1])
-        for ii in range(1, N - 1):
-            n[ii] = .5 * (n[ii + 1] + n[ii - 1]) - .5 * lambda_ * (F_n[ii + 1] - F_n[ii - 1])
-            v[ii] = .5 * (v[ii + 1] + v[ii - 1]) - .5 * lambda_ * (F_v[ii + 1] - F_v[ii - 1])
-        n[N - 1] = .5 * (n[0] + n[N - 2]) - .5 * lambda_ * (F_n[0] - F_n[N - 2])
-        v[N - 1] = .5 * (v[0] + v[N - 2]) - .5 * lambda_ * (F_v[0] - F_v[N - 2])
+        F_n = f_n(n, v)
+        F_v = f_v(n, v, phi)
+        LF_scheme(n,v,F_n,F_v)
 
         if tt % (T / snaps) == 0:
             snap_n[int(tt / (T / snaps))] = n
@@ -112,7 +117,7 @@ def solve():
     n_IC = n_0 * np.ones(N)
     v_IC = np.zeros(N)
     for ii in range(N):
-        if ii < N/2:
+        if ii < N / 2:
             n_IC[ii] = 3 * n_0 / 2
             v_IC[ii] = 1
         else:
@@ -128,19 +133,7 @@ def solve():
     # Correlation
     for tt in range(T + 1):
         # Phi - A * phi = b
-        # Define b
-        bc = 3 - 4 * np.pi * dx * dx * nc
-        bc = bc - np.mean(bc)
-        # First sweep
-        Ac[0] = -0.5
-        bc[0] = -0.5 * bc[0]
-        for ii in range(1, N - 1):
-            Ac[ii] = -1 / (2 + Ac[ii - 1])
-            bc[ii] = (bc[ii - 1] - bc[ii]) / (2 + Ac[ii - 1])
-        # Second sweep
-        phic[0] = bc[N - 1] - bc[N - 2]
-        for ii in range(1, N - 1):
-            phic[ii] = (bc[ii - 1] - phic[ii - 1]) / Ac[ii - 1]
+        phic = compute_phi(nc)
 
         conc = nc / n_0
         Gamma = Gamma_0 * conc ** (1 / 3)
@@ -155,16 +148,10 @@ def solve():
             f_corr[jj] = dx * np.sum(n3 * rho_int)
 
         F_nc = f_nc(nc, vc)
-        F_vc = f_vc(nc, vc, phic,f_corr)
+        F_vc = f_vc(nc, vc, phic, f_corr)
 
         # Lax-Friedrichs
-        nc[0] = .5 * (nc[1] + nc[-1]) - .5 * lambda_ * (F_nc[1] - F_nc[-1])
-        vc[0] = .5 * (vc[1] + vc[-1]) - .5 * lambda_ * (F_vc[1] - F_vc[-1])
-        for ii in range(1, N - 1):
-            nc[ii] = .5 * (nc[ii + 1] + nc[ii - 1]) - .5 * lambda_ * (F_nc[ii + 1] - F_nc[ii - 1])
-            vc[ii] = .5 * (vc[ii + 1] + vc[ii - 1]) - .5 * lambda_ * (F_vc[ii + 1] - F_vc[ii - 1])
-        nc[N - 1] = .5 * (nc[0] + nc[N - 2]) - .5 * lambda_ * (F_nc[0] - F_nc[N - 2])
-        vc[N - 1] = .5 * (vc[0] + vc[N - 2]) - .5 * lambda_ * (F_vc[0] - F_vc[N - 2])
+        LF_scheme(nc,vc,F_nc,F_vc)
 
         if tt % (T / snaps) == 0:
             snap_nc[int(tt / (T / snaps))] = nc
@@ -173,34 +160,32 @@ def solve():
 
     # Color Map
     y = np.linspace(0, t, snaps + 1)
-    xx,yy = np.meshgrid(x, y, sparse=False, indexing='xy')
+    xx, yy = np.meshgrid(x, y, sparse=False, indexing='xy')
+    def colormap(xx_,yy_,snap_u):
+        plt.figure()
+        clr = plt.contourf(xx_, yy_, snap_u)
+        plt.colorbar()
 
-    plt.figure()
-    clr = plt.contourf(xx, yy, snap_n)
-    plt.colorbar()
+    colormap(xx,yy,snap_n)
     plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
-    plt.figure()
-    clr = plt.contourf(xx, yy, snap_nc)
-    plt.colorbar()
+    colormap(xx, yy, snap_nc)
     plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
-    plt.figure()
-    clr = plt.contourf(xx, yy, snap_n-snap_nc)
-    plt.colorbar()
+    colormap(xx,yy,snap_n-snap_nc)
     plt.title("Difference: n-nc")
 
     # Plotting
-    plt.figure()
-    for ii in range(len(snap_n)):
-        plt.plot(x, snap_n[ii], label="n @ T = " + str(ii * dt * T / snaps))
-    plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    plt.legend()
+    def plot(x_,snap_u):
+        plt.figure()
+        for ii in range(len(snap_u)):
+            plt.plot(x_, snap_u[ii], label="T = " + str(ii * dt * T / snaps))
+        plt.legend()
 
-    plt.figure()
-    plt.plot(x, n_IC, label="nc @ T = 0")
-    for ii in range(len(snap_n)):
-        plt.plot(x, snap_nc[ii], label="nc @ T = " + str(ii * dt * T / snaps))
+    plot(x,snap_n)
+    plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+
+    plot(x,snap_nc)
     plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    plt.legend()
+
     plt.show()

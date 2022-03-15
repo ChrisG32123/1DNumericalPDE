@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Finished">
-      <change afterPath="$PROJECT_DIR$/post243A.py" afterDir="false" />
+    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Redone, Works&#10;TODO: Colormaps">
+      <change afterPath="$PROJECT_DIR$/colormap.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/colormap_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/continuity_roe_solver.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/definitions_domain_parameters_functions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/godunov_rhs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/godunov_save.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/godunov_scalar_continuity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/godunov_scheme.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/godunov_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/organized_solve.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plotting.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roe_rewrite.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roe_solver.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roe_solver_2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roe_solver_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/solver.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_convolution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/continuity_solver.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post243A.py" beforeDir="false" afterPath="$PROJECT_DIR$/post243A.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +48,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1uhAZjzx6nrJ7O0TIPNT5WPIeLJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -40,7 +62,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="project.scopes" />
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="euler_poisson_solver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -121,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637709074303</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Redone, Works&#10;TODO: Colormaps">
+      <created>1639459736586</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1639459736587</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -134,12 +163,12 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1. Numerical Solutions Found&#10;2. Plots with Snapshots" />
     <MESSAGE value="Have c(a,b). Need c(n,k)" />
     <MESSAGE value="Finished" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished" />
+    <MESSAGE value="Redone, Works&#10;TODO: Colormaps" />
+    <option name="LAST_COMMIT_MESSAGE" value="Redone, Works&#10;TODO: Colormaps" />
   </component>
 </project>

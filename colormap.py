@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def solve():
+def color():
     # Parameters
     N = int(1e2)  # Grid Points
     T = int(1e3)  # Time Steps
@@ -71,11 +71,13 @@ def solve():
     def f_nc(nc_, vc_):
         return nc_ * vc_
 
-    def f_vc(nc_, vc_, phic_, f_corr_):
-        return .5 * vc_ * vc_ + np.log(nc_) + Gamma_0 * phic_ + f_corr_
+    def f_vc(nc_, vc_, phic_):
+        return .5 * vc_ * vc_ + np.log(nc_) + Gamma_0 * phic_ + f_corr
 
     # No Correlation
     for tt in range(T + 1):
+        if tt <5:
+            print(n_IC)
         # Phi - A * phi = b
         # Define b
         b = 3 - 4 * np.pi * dx * dx * n
@@ -155,7 +157,7 @@ def solve():
             f_corr[jj] = dx * np.sum(n3 * rho_int)
 
         F_nc = f_nc(nc, vc)
-        F_vc = f_vc(nc, vc, phic,f_corr)
+        F_vc = f_vc(nc, vc, phic)
 
         # Lax-Friedrichs
         nc[0] = .5 * (nc[1] + nc[-1]) - .5 * lambda_ * (F_nc[1] - F_nc[-1])
@@ -178,29 +180,23 @@ def solve():
     plt.figure()
     clr = plt.contourf(xx, yy, snap_n)
     plt.colorbar()
-    plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    plt.show()
 
     plt.figure()
     clr = plt.contourf(xx, yy, snap_nc)
     plt.colorbar()
-    plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-
-    plt.figure()
-    clr = plt.contourf(xx, yy, snap_n-snap_nc)
-    plt.colorbar()
-    plt.title("Difference: n-nc")
-
-    # Plotting
-    plt.figure()
-    for ii in range(len(snap_n)):
-        plt.plot(x, snap_n[ii], label="n @ T = " + str(ii * dt * T / snaps))
-    plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    plt.legend()
-
-    plt.figure()
-    plt.plot(x, n_IC, label="nc @ T = 0")
-    for ii in range(len(snap_n)):
-        plt.plot(x, snap_nc[ii], label="nc @ T = " + str(ii * dt * T / snaps))
-    plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    plt.legend()
     plt.show()
+
+    # plt.figure()
+    # for ii in range(len(snap_v)):
+    #     plt.plot(x, snap_v[ii], label="v @ T = " + str(ii * dt * T / snaps))
+    # plt.title("Velocity: Gamma = " + str(Gamma))
+    # plt.legend()
+    #
+    # plt.figure()
+    # for ii in range(len(snap_phi)):
+    #     plt.plot(x, snap_phi[ii], label="phi @ T = " + str(ii * dt * T / snaps))
+    # plt.title("Electrostatic Potential: Gamma = " + str(Gamma))
+    # plt.legend()
+
+    plt.show(block=True)
