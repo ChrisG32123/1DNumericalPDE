@@ -10,13 +10,18 @@ from roe_rewrite import roe_rewrite
 from continuity_roe_solver import continuity_roe_solver
 from godunov_scalar_continuity import godunov_scalar_continuity
 from test import test_roll
-from test_convolution import test_convolution, half_interval_test_convolution
+from test_convolution import test_convolution, half_interval_test_convolution, meyer_convolution, meyer_convolution_1, meyer_convolution_2
+from icops_final import icops
+from corr_change import corr_change
+
+import matplotlib.pyplot as plt
+
 def main():
     # colormap_trial()
     # color()
     # solve()
     # organized_solve()
-    godunov_solve()
+    # godunov_solve()
     # godunov_test()
     # roe_solve()
     # roe_solve_2()
@@ -26,6 +31,20 @@ def main():
     # test_roll()
     # test_convolution()
     # half_interval_test_convolution()
+    # meyer_convolution()
+    # meyer_convolution_1()
+    # meyer_convolution_2()
+    # icops()
+
+    Gamma = [.1,1,10]
+    kappa = [.5,1,2]
+
+    for elmG in Gamma:
+        for elmk in kappa:
+            corr_change(elmG,elmk)
+            print("done")
+
+    plt.show()
 
 main()
 # TODO:

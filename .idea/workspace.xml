@@ -1,29 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Redone, Works&#10;TODO: Colormaps">
-      <change afterPath="$PROJECT_DIR$/colormap.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/colormap_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/continuity_roe_solver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/definitions_domain_parameters_functions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/godunov_rhs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/godunov_save.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/godunov_scalar_continuity.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/godunov_scheme.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/godunov_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/organized_solve.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plotting.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roe_rewrite.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roe_solver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roe_solver_2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roe_solver_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/solver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_convolution.py" afterDir="false" />
+    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Try New Correlation Functions">
+      <change afterPath="$PROJECT_DIR$/corr_change.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icops_final.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/subplots.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/continuity_solver.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/godunov_scheme.py" beforeDir="false" afterPath="$PROJECT_DIR$/godunov_scheme.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post243A.py" beforeDir="false" afterPath="$PROJECT_DIR$/post243A.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_convolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_convolution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +47,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="project.scopes" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="euler_poisson_solver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -150,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639459736587</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Try New Correlation Functions">
+      <created>1647379916827</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1647379916827</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -169,6 +161,7 @@
     <MESSAGE value="Have c(a,b). Need c(n,k)" />
     <MESSAGE value="Finished" />
     <MESSAGE value="Redone, Works&#10;TODO: Colormaps" />
-    <option name="LAST_COMMIT_MESSAGE" value="Redone, Works&#10;TODO: Colormaps" />
+    <MESSAGE value="Try New Correlation Functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Try New Correlation Functions" />
   </component>
 </project>
