@@ -228,4 +228,35 @@ def icops():
     # # plot(x,snap_v)
     # # plt.title("Velocity: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
+    fft = np.fft.ifftshift(snap_n-np.mean(snap_n[:,:]))
+    fft = np.fft.fft2(fft)
+    fft = np.abs(np.fft.fftshift(fft))
+
+    fftc = np.fft.ifftshift(snap_nc - np.mean(snap_nc[:, :]))
+    fftc = np.fft.fft2(fftc)
+    fftc = np.abs(np.fft.fftshift(fftc))
+
+    colormap(xx, yy, fft)
+    plt.title("Dispersion Relation: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    colormap(xx, yy, fftc)
+    plt.title("Dispersion Relation: Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+
+
+# def calculate_2dft(u):
+    #     fft = np.fft.ifftshift(u-np.mean(u[:,:]))
+    #     fft = np.fft.fft2(fft)
+    #     return np.abs(np.fft.fftshift(fft))
+    #
+    # def disp_rel_cmap(ux, ut, u):
+    #         fft = calculate_2dft(u[c])
+    #         fig = plt.figure(figsize=(15,15))
+    #         color_map = plt.contourf(ux, ut, fft)
+    #         color_map = plt.imshow(fft, cmap='viridis', origin='lower', extent=(X0,Xf,T0,Tf), aspect='auto')
+    # #         plt.title('Γ = ' + str(Gamma[ii]) + ', κ = ' + str(kappa[jj]))
+    #         plt.title('Γ = ' + str(Gamma_0) + ', κ = ' + str(kappa_0))
+    #         plt.colorbar()
+    #         plt.ylabel("Time")
+    #         plt.xlabel("Space")
+    #         plt.show(block=False)
+
     plt.show()

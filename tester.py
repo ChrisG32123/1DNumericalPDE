@@ -1,6 +1,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+def tester2():
+
+    snap_nc = np.array([[1,2,3,4,5,6,7,8],[9,10,11,12,13,14,15,16],[17,18,19,20,21,22,23,24]])
+    print(snap_nc)
+
+    numRowsc = len(snap_nc)
+    print(numRowsc)
+    loop = int(numRowsc / 2 )
+    for kk in range(loop):
+        snap_nc[[kk, numRowsc - kk - 1], :] = snap_nc[[numRowsc - kk - 1, kk], :]
+    # for kk in range(numRowsc):
+
+    print(snap_nc)
 
 def tester():
     # TODO: Changes Made

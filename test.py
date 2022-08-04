@@ -1,21 +1,23 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-def test_roll():
-    # creating a sample array with arange and reshape function
-    array = np.arange(12).reshape(3, 4)
-    print("Original array : \n", array[:])
+def test():
+    N = 500
+    a = np.array([[np.sin(2*np.pi*x/N) for x in range(N)] for y in range(N)]).reshape(N,N)
 
-    # Rolling array; Shifting one place
-    print("\nRolling with 1 shift : \n", np.roll(array[:], 1, axis =1))
+    fig, ax = plt.subplots(nrows=1, ncols=1)
+    im = ax.imshow(a, aspect='auto', cmap='viridis')
+    fig.colorbar(im)
 
-    q = array
-    q0 = np.copy(q)
-    dt = 1e-3
-    dx = 10/100
-    dF = 0
-    q[:,  1:-2] = q0[:, 1:-2] - dt / dx * dF
-    q[:, 0] = q0[:, 0]
-    q[:, -1] = q0[:, -1]
+    a_hat = np.fft.fft2(a)
+    a_hat = np.real(a_hat * np.conj(a_hat))
 
-    print(q)
-    print(q0)
+    fig, ax = plt.subplots(nrows=1, ncols=1)
+    im = ax.imshow(a_hat, aspect='auto', cmap='viridis')
+    fig.colorbar(im)
+
+    min = np.min(a_hat)
+    max = np.max(a_hat)
+
+    print(min)
+    print(max)

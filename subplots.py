@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def corr_change(Gamma_0,kappa_0):
+def subplot(Gamma_0,kappa_0):
 # ============== #
 # Define Methods #
 # ============== #
@@ -167,6 +167,8 @@ def corr_change(Gamma_0,kappa_0):
         plt.ylabel("Time")
         plt.xlabel("Space")
 
+        return clr
+
     def plot(x, snap_u):
         plt.figure()
 
@@ -183,7 +185,7 @@ def corr_change(Gamma_0,kappa_0):
 
     # Parameters
     N = int(5e2)  # Grid Points
-    T = int(1e3)  # Time Steps
+    T = int(3e3)  # Time Steps
     L = 10  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
     x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
@@ -246,10 +248,10 @@ def corr_change(Gamma_0,kappa_0):
     y = np.linspace(0, t, snaps + 1)
     xx, yy = np.meshgrid(x, y, sparse=False, indexing='xy')
 
-    colormap(xx,yy,snap_n)
-    plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    colormap(xx,yy,snap_nc)
-    plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    # cmap_n = colormap(xx,yy,snap_n)
+    # plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    # cmap_nc = colormap(xx,yy,snap_nc)
+    # plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
     # colormap(xx, yy, (snap_nc - snap_n) / n_0)
     # plt.title("Density Difference: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
@@ -260,3 +262,16 @@ def corr_change(Gamma_0,kappa_0):
 
     # plot(x,snap_v)
     # plt.title("Velocity: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+
+
+    numRows = len(snap_n)
+    loop = int(numRows / 2)
+    for kk in range(loop):
+        snap_n[[kk, numRows - kk - 1], :] = snap_n[[numRows - kk - 1, kk], :]
+
+    numRowsc = len(snap_nc)
+    loopc = int(numRowsc / 2 )
+    for kk in range(loopc):
+        snap_nc[[kk, numRowsc - kk - 1], :] = snap_nc[[numRowsc - kk - 1, kk], :]
+
+    return snap_n, snap_nc, L , t

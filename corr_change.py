@@ -95,7 +95,7 @@ def corr_change(Gamma_0,kappa_0):
         r = np.linspace(0, rmax, Nr)
 
         dcf = np.exp(-beta * r ** 2)
-        dcf_fft = np.fft.fftshift(np.fft.fft())
+        dcf_fft = np.fft.fftshift(np.fft.fft(dcf))
         dcf_fft_ex = (np.pi / beta) ** (3 / 2) * np.exp(- k ** 2 / (4 * beta))
 
         n_hat = np.fft.fftshift(np.fft.fft(delta_n))
@@ -131,10 +131,10 @@ def corr_change(Gamma_0,kappa_0):
             # Compute RHS
             phi = compute_phi(n, phi, A)
             if correlations:
-                # f_corr = nonisotropic_correlations(n,n3,x,x3,f_corr)
+                # f_corr = anisotropic_correlations(n,n3,x,x3,f_corr)
                 f_corr = fft_meanfield(k,n,Gamma,kappa)
                 f_corrL, f_corrR = update_Riemann_values(f_corr)
-                rhs = -(f_corrR - f_corrL)/dx - Gamma_0 * (phiR - phiL) / dx
+                rhs = -(f_corrR - f_corrL)/dx - Gamma_0 * (phiR - phiL) / dx # TODO: -1/2 or 1??
             else:
                 rhs = - Gamma_0 * (phiR - phiL) / dx
 
@@ -167,15 +167,56 @@ def corr_change(Gamma_0,kappa_0):
         plt.ylabel("Time")
         plt.xlabel("Space")
 
+        plt.imshow(snap_u, cmap="viridis", aspect='auto')
+        plt.ylim(0,t)
+        plt.xlim(0,L)
+
+        plt.set_cmap(cmap='viridis')
+        plt.title("Γ = " + str(Gamma_0) + ", κ = " + str(kappa_0))
+        plt.show()
+
+    def colormap(xx, yy, snap_u, correlations):
+        # plt.figure()
+        #
+        # plt.imshow(snap_u, cmap="viridis", aspect='auto')
+        # plt.ylim(0,t)
+        # plt.xlim(0,L)
+        # plt.ylabel("Time")
+        # plt.xlabel("Space")
+        #
+        # plt.colorbar
+        # plt.set_cmap(cmap='viridis')
+        # plt.title('Gamma = ' + str(Gamma_0) + ' kappa = ' + str(kappa_0))
+        # plt.show()
+
+        fig, ax = plt.subplots(nrows=1, ncols=1)
+
+        # find minimum of minima & maximum of maxima
+        minmin = np.min(snap_u)
+        maxmax = np.max(snap_u)
+
+        # numRows = len(snap_u)
+        # temp = np.copy(snap_u)
+        # for ii in range(numRows):
+        #     snap_u[numRows-ii-1] = temp[ii]
+        # snap_u = np.copy(temp)
+
+        im = ax.imshow(snap_u, vmin=minmin, vmax=maxmax,
+                       extent= (0,L,0,t), aspect='auto', cmap='viridis')
+        if correlations:
+            ax.set_title("Correlations: Γ = " + str(Gamma_0) + ", κ = " + str(kappa_0))
+        else:
+            ax.set_title("No Correlations: Γ = " + str(Gamma_0) + ", κ = " + str(kappa_0))
+        plt.ylabel("Time")
+        plt.xlabel("Space")
+        cbar = fig.colorbar(im)
+
     def plot(x, snap_u):
         plt.figure()
 
-        plt.plot(x,snap_u[0], label="first")
-        plt.plot(x,snap_u[-1], label="last")
-
         for ii in range(len(snap_u)):
-            plt.plot(x, snap_u[ii], label="T = " + str(ii * dt * T / snaps))
-        plt.legend()
+            plt.plot(x[::2], snap_u[ii,::2], label="T = " + str(ii * dt * T / snaps))
+        # plt.legend()
 
 # ================= #
 # Define Parameters #
@@ -183,7 +224,7 @@ def corr_change(Gamma_0,kappa_0):
 
     # Parameters
     N = int(5e2)  # Grid Points
-    T = int(1e3)  # Time Steps
+    T = int(5e2)  # Time Steps
     L = 10  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
     x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
@@ -193,14 +234,14 @@ def corr_change(Gamma_0,kappa_0):
     k = k_fft_norm * np.linspace(-N / 2, N / 2 - 1, N)
     lambda_ = dt / dx
     t = dt * T
-    disp_freq = 3*2 * np.pi / L
+    disp_freq = 3* 2 * np.pi / L
     correlations = False
 
-    n_0 = 3 / (4 * np.pi)  #5.04e-16 # Mean Density
+    n_0 = 3 / (4 * np.pi)  # 5.04e-16 # Mean Density
     # snaps = int(input("Number of Snapshots "))  # Number of Snapshots
     # Gamma_0 = float(input("Value of Gamma "))  # Coulomb Coupling Parameter
     # kappa_0 = float(input("Value of kappa "))  # screening something
-    snaps = 50
+    snaps = 20
     beta = 1
 
     # Dispersion Relation
@@ -216,10 +257,10 @@ def corr_change(Gamma_0,kappa_0):
     # n_IC[int(3 * N / 4):N] = n_0 / 2
 
     # n_IC = n_0 * np.exp(-(x-L/2)**2)
-    # v_IC = np.zeros(N)
+    v_IC = np.zeros(N)
 
     n_IC = n_0 * np.ones(N) + .1*np.sin(disp_freq*x)
-    v_IC = .1*np.sin(disp_freq*x)
+    # v_IC = .1*np.sin(disp_freq*x)
 
     n, nL, nR, flux_n, FnL, FnR, snap_n = memory_allocation_PDE(n_IC)
     v, vL, vR, flux_v, FvL, FvR, snap_v = memory_allocation_PDE(v_IC)
@@ -242,21 +283,64 @@ def corr_change(Gamma_0,kappa_0):
     correlations = True
     solve(correlations, nc, ncL, ncR, vc, vcL, vcR, phic, phicL, phicR, f_corr, rhsc, FncL, FncR, FvcL, FvcR, snap_nc, snap_vc, snap_phic, Gamma_0, kappa_0)
 
+    plot(x,snap_n)
+    plt.title("Density: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    plot(x, snap_nc)
+    plt.title("Density: Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+
+    # plot(x,snap_v)
+    # plt.title("Velocity: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+
+
     # Color Map
     y = np.linspace(0, t, snaps + 1)
     xx, yy = np.meshgrid(x, y, sparse=False, indexing='xy')
 
-    colormap(xx,yy,snap_n)
-    plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    colormap(xx,yy,snap_nc)
-    plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    # colormap(xx, yy, (snap_nc - snap_n) / n_0)
-    # plt.title("Density Difference: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    numRows = len(snap_n)
+    loop = int(numRows / 2)
+    for kk in range(loop):
+        snap_n[[kk, numRows - kk - 1], :] = snap_n[[numRows - kk - 1, kk], :]
 
-    # plot(x,snap_n)
-    # plt.title("Density: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    # plot(x, snap_nc)
-    # plt.title("Density: Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    numRowsc = len(snap_nc)
+    loopc = int(numRowsc / 2)
+    for kk in range(loopc):
+        snap_nc[[kk, numRowsc - kk - 1], :] = snap_nc[[numRowsc - kk - 1, kk], :]
 
-    # plot(x,snap_v)
-    # plt.title("Velocity: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    colormap(xx,yy,snap_n, correlations)
+    plt.title("Density: No Correlations, Γ = " + str(Gamma_0) + ", κ = " + str(kappa_0))
+    colormap(xx,yy,snap_nc, correlations)
+    plt.title("Density: Correlations, Γ = " + str(Gamma_0) + ", κ = " + str(kappa_0))
+    colormap(xx, yy, (snap_nc - snap_n) / n_0, correlations)
+    plt.title("Relative Density: Γ = " + str(Gamma_0) + ", κ = " + str(kappa_0))
+
+    def calculate_2dft(usnapn):
+        fft = np.fft.ifftshift(usnapn-n_0)
+        fft = np.fft.fft2(fft)
+        return np.abs(np.fft.fftshift(fft))
+
+    n_hat = calculate_2dft(snap_n)
+    nc_hat = calculate_2dft(snap_nc)
+
+    def disp_rel(un_hat):
+        fig, ax = plt.subplots(nrows=1, ncols=1)
+        # find minimum of minima & maximum of maxima
+        minmin = np.min(un_hat)
+        maxmax = np.max(un_hat)
+
+        im = ax.imshow(un_hat[0:int(N/2),0:int(T/2)], vmin=minmin, vmax=maxmax,
+                       extent=(0, np.pi / dx, 0, np.pi/dt), aspect='auto', cmap='viridis')
+
+        ax.set_title("Dispersion Relation: Γ = " + str(Gamma_0) + ", κ = " + str(kappa_0))
+        plt.ylabel("Dispersion")
+        plt.xlabel("Frequency")
+        cbar = fig.colorbar(im)
+        plt.show()
+
+    disp_rel(n_hat)
+    disp_rel(nc_hat)
+
+
+    print(n_hat.shape)
+    print(n_hat[0:int(N/2),0:int(T/2)].shape)
+
+
