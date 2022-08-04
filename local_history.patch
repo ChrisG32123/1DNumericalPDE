@@ -1,0 +1,129 @@
+Index: rewrite.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rewrite.py b/rewrite.py
+--- a/rewrite.py	
++++ b/rewrite.py	(date 1657949593235)
+@@ -5,12 +5,15 @@
+ N = int(5e2 + 1)  # Grid Points
+ T = int(5e2 + 1)  # Time Steps
+ L = 10  # Domain Size
+-x = np.linspace(0, L, N)  # Domain
++x = np.linspace(0, L, N)  # Spatial Domain
+ dx = x[2] - x[1]  # Grid Size
+ dt = 1e-3  # Time Step Size
+ lambda_ = dt / dx
+-t = dt * T
+-snaps = int((T-1) / 10) # TODO: Knob
++t_tot = dt * T
++num_snaps = 10
++snaps = int((T-1) / num_snaps) # TODO: Knob
++t = np.linspace(0, t_tot, int(T/num_snaps)) # Temporal Domain
++xx, tt = np.meshgrid(x,t, sparse=False, indexing='xy') # Spatial-Temporal Domain
+ 
+ # Mathematical Parameters
+ n_0 = 3 / (4 * np.pi)
+@@ -30,24 +33,24 @@
+ v_IC = .1 * np.sin(disp_freq * x)
+ 
+ # Memory Allocation
+-n_tot = np.zeros((snaps, N))
+-v_tot = np.zeros((snaps, N))
+-phi_tot = np.zeros((snaps, N))
+-
+-nc_tot = np.zeros((snaps, N))
+-vc_tot = np.zeros((snaps, N))
+-phic_tot = np.zeros((snaps, N))
++n = np.zeros((2,N))
++v = np.zeros((2,N))
++phi = np.zeros((2,N))
+ 
+-n_tot[0,:] = np.copy(n_IC)
+-v_tot[0,:] = np.copy(v_IC)
+-
+-nc_tot[0,:] = np.copy(n_IC)
+-vc_tot[0,:] = np.copy(v_IC)
++n_tot = np.zeros((2, snaps, N))
++v_tot = np.zeros((2, snaps, N))
++phi_tot = np.zeros((2, snaps, N))
+ 
+ vec_tot = [n_tot, v_tot]
+-vecc_tot = [nc_tot, vc_tot]
+ 
+-sys = [vec_tot,vecc_tot]
++# Initial Conditions
++n = np.copy(n_IC)
++v = np.copy(v_IC)
++nc = np.copy(n_IC)
++vc = np.copy(v_IC)
++
++n_tot[0,:] = np.copy(n)
++v_tot[0,:] = np.copy(v)
+ 
+ def rewrite(n,v,phi, correlation):
+ 
+@@ -85,6 +88,9 @@
+             phi[ii] = (b[ii - 1] - phi[ii - 1]) / A[ii - 1]
+         return phi
+ 
++# ===== #
++# Solve #
++# ===== #
+     for corr in correlation:
+         if corr:
+             vec = vecc_tot
+@@ -94,7 +100,7 @@
+             for ii in range(1,N):
+                 vec[:,ii] = vec[:,ii] - lambda_ * (flux(vec[0][ii+1],vec[1][ii+1])-flux(vec[0][ii],vec[1][ii]))
+             vec[:,N] = vec[:,N] - lambda_ * (flux(vec[0][0],vec[1][0])-flux(vec[0][N],vec[1][N]))
+-
++            
+         #  Snapshot
+         if tt % ((T-1)/snaps) == 0:
+             snap = int(tt/snaps)
+@@ -107,3 +113,42 @@
+ 
+ 
+     correlations = False
++
++
++# ==== #
++# Plot #
++# ==== #
++
++rho_tot_rev = rho_tot[:,::-1,:]
++v_tot_rev = v_tot[:,::-1,:]
++
++def plot(domain, u_tot_rev):
++    for cor in range(2):
++        fig = plt.figure()
++        plt.title("Plot")
++        for ii in range(snaps):
++            plt.plot(domain, u_tot_rev[cor,ii], label=str((T-1)/snaps))
++        plt.legend()
++        plt.show(block=False)
++
++def cmap(x_domain, t_domain, u_tot_rev):
++    for cor in range(2):
++        fig = plt.figure()
++        color_map = plt.contourf(x_domain, t_domain, u_tot_rev)
++        plt.colorbar()
++        plt.ylabel("Time")
++        plt.x_label("Space")
++        plt.show(block=False)    
++
++def calculate_2dft(u_tot_rev):
++    ft = np.fft.ifftshift(u_tot_rev)
++    ft = np.fft.fft2(ft)
++    return np.fft.fftshift(ft)
++
++def disp_rel_cmap(x_domain, t_domain, u_tot_rev):
++    ft = calculate_2dft(u_tot_rev)
++    cmap(x_domain, t_domain, ft)
++    
++def plot3D():
++    fig = plt.figure()
++    
+\ No newline at end of file
