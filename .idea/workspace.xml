@@ -1,60 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Add Jupytr Notebooks">
-      <change afterPath="$PROJECT_DIR$/Add Energy/cor_snaps_space.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Add Energy/energy_addition_101322.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Add Energy/energy_correction_101822.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Add Energy/oop_code.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DMD/DMDTest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/corr_change-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/corr_change-checkpoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/icops_final-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/icops_final-checkpoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/main-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/main-checkpoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/subplots-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/subplots-checkpoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/3D/multi_dimensional_modeling.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/3D/multi_dimensional_modeling.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/Untitled.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cauchy_momentum_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/cauchy_momentum_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colormap.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/colormap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colormap_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/colormap_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/continuity_roe_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/continuity_roe_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cor_snaps_space.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/corr_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/corr_change.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/definitions_domain_parameters_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/definitions_domain_parameters_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dispersion_relations.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/dispersion_relations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ep_corr_vs_no_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/ep_corr_vs_no_corr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/euler_poisson_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/euler_poisson_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/godunov_rhs.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_rhs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/godunov_save.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_save.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/godunov_scalar_continuity.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_scalar_continuity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/godunov_scheme.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_scheme.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/godunov_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/icops_final.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/icops_final.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local_history.patch" beforeDir="false" afterPath="$PROJECT_DIR$/Old/local_history.patch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ono.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/ono.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/organized_solve.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/organized_solve.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phi_corr_v_nocorr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/phi_corr_v_nocorr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plotting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/plotting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/poisson_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/poisson_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post243A.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/post243A.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rewrite.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/rewrite.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rewrite.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/rewrite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rewrite_jup.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/rewrite_jup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roe_rewrite.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_rewrite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roe_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roe_solver_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_solver_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roe_solver_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_solver_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/save.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/save.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/add_energy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subplots.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/subplots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_convolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/test_convolution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/test_corr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tester.py" beforeDir="false" />
-    </list>
+    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -208,7 +155,21 @@
       <option name="project" value="LOCAL" />
       <updated>1658534236183</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py">
+      <created>1665973608698</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1665973608698</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py">
+      <created>1665973825822</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1665973825822</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -230,6 +191,7 @@
     <MESSAGE value="Try New Correlation Functions" />
     <MESSAGE value="Fixed Correlations&#10;Next: Subplots" />
     <MESSAGE value="Add Jupytr Notebooks" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Jupytr Notebooks" />
+    <MESSAGE value="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py" />
   </component>
 </project>
