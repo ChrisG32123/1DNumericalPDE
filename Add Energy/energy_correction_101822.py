@@ -121,9 +121,6 @@ def solve():
         # Lax-Friedrichs
         sys = .5 * (sysL + sysR) - .5 * lmbd * (sysfluxR - sysfluxL) + dt * sysrhs      # TODO: LINE CHANGE
 
-        # FTFT
-        # sys = sys - lmbd * (sysflux - sysfluxL) + dt * sysrhs      # TODO: LINE CHANGE
-
         # Unvectorize From Solve
         n, nu, ne = sys[0], sys[1], sys[2]  # Extrinsic Variables
         u, e = nu / n, ne / n  # Intrinsic Variables
