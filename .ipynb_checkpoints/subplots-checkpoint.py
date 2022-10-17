@@ -212,12 +212,12 @@ def subplot(Gamma_0,kappa_0):
     print("omega_c: ", omega_c)
 
     # Initial Conditions
-    # n_IC = n_0 * np.ones(N)
-    # n_IC[0:int(N / 4)] = n_0 / 2
-    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * n_0 / 2
-    # n_IC[int(3 * N / 4):N] = n_0 / 2
+    # n_IC = rho_0 * np.ones(N)
+    # n_IC[0:int(N / 4)] = rho_0 / 2
+    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * rho_0 / 2
+    # n_IC[int(3 * N / 4):N] = rho_0 / 2
 
-    # n_IC = n_0 * np.exp(-(x-L/2)**2)
+    # n_IC = rho_0 * np.exp(-(x-L/2)**2)
     # v_IC = np.zeros(N)
 
     n_IC = n_0 * np.ones(N) + .1*np.sin(disp_freq*x)
@@ -252,7 +252,7 @@ def subplot(Gamma_0,kappa_0):
     # plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
     # cmap_nc = colormap(xx,yy,snap_nc)
     # plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    # colormap(xx, yy, (snap_nc - snap_n) / n_0)
+    # colormap(xx, yy, (snap_nc - snap_n) / rho_0)
     # plt.title("Density Difference: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
     # plot(x,snap_n)

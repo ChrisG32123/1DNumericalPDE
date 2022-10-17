@@ -37,10 +37,10 @@ snap_vc = np.zeros((snaps + 1, N))
 snap_phic = np.zeros((snaps + 1, N))
 
 # Initial Conditions
-# n_IC = n_0 * np.ones(N)
+# n_IC = rho_0 * np.ones(N)
 # v_IC = np.zeros(N)
 # for ii in range(N):
-#     n_IC[ii] = n_IC[ii] + (n_0 / 2) * np.sin(2 * np.pi * ii * dx / L)
+#     n_IC[ii] = n_IC[ii] + (rho_0 / 2) * np.sin(2 * np.pi * ii * dx / L)
 #     v_IC[ii] = v_IC[ii] + np.sin(2 * np.pi * ii * dx / L)
 n_IC = n_0 * np.ones(N)
 v_IC = np.zeros(N)

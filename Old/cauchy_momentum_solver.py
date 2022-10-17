@@ -52,7 +52,7 @@ def cauchy():
 
     # Plot n(x,0) and n(x,t)
     plt.figure()
-    plt.plot(x, n_0, label="n_0")
+    plt.plot(x, n_0, label="rho_0")
     plt.plot(x, n, label="n")
 
     # Plot integral of n(x,t) over time

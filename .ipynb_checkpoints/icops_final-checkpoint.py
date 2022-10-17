@@ -181,10 +181,10 @@ def icops():
     # print(omega)
 
     # Initial Conditions
-    # n_IC = n_0 * np.ones(N)
-    # n_IC[0:int(N / 4)] = n_0 / 2
-    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * n_0 / 2
-    # n_IC[int(3 * N / 4):N] = n_0 / 2
+    # n_IC = rho_0 * np.ones(N)
+    # n_IC[0:int(N / 4)] = rho_0 / 2
+    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * rho_0 / 2
+    # n_IC[int(3 * N / 4):N] = rho_0 / 2
     n_IC = n_0 * np.exp(-(x - L / 2) ** 2)
     v_IC = np.zeros(N)
 
@@ -217,7 +217,7 @@ def icops():
     plt.title("Density: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
     colormap(xx,yy,snap_nc)
     plt.title("Density: Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    # colormap(xx, yy, (snap_nc - snap_n) / n_0)
+    # colormap(xx, yy, (snap_nc - snap_n) / rho_0)
     # plt.title("Density Difference: (No Correlations - Correlations) / Mean")
 
     # plot(x,snap_n)

@@ -251,12 +251,12 @@ def corr_change(Gamma_0,kappa_0):
     print("omega_c: ", omega_c)
 
     # Initial Conditions
-    # n_IC = n_0 * np.ones(N)
-    # n_IC[0:int(N / 4)] = n_0 / 2
-    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * n_0 / 2
-    # n_IC[int(3 * N / 4):N] = n_0 / 2
+    # n_IC = rho_0 * np.ones(N)
+    # n_IC[0:int(N / 4)] = rho_0 / 2
+    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * rho_0 / 2
+    # n_IC[int(3 * N / 4):N] = rho_0 / 2
 
-    # n_IC = n_0 * np.exp(-(x-L/2)**2)
+    # n_IC = rho_0 * np.exp(-(x-L/2)**2)
     v_IC = np.zeros(N)
 
     n_IC = n_0 * np.ones(N) + .1*np.sin(disp_freq*x)

@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def godunov_solve():
+def subplot(Gamma_0,kappa_0):
 # ============== #
 # Define Methods #
 # ============== #
@@ -133,7 +133,8 @@ def godunov_solve():
             if correlations:
                 # f_corr = nonisotropic_correlations(n,n3,x,x3,f_corr)
                 f_corr = fft_meanfield(k,n,Gamma,kappa)
-                rhs = f_corr - Gamma_0 * (phiR - phiL) / dx
+                f_corrL, f_corrR = update_Riemann_values(f_corr)
+                rhs = -(f_corrR - f_corrL)/dx - Gamma_0 * (phiR - phiL) / dx
             else:
                 rhs = - Gamma_0 * (phiR - phiL) / dx
 
@@ -163,6 +164,10 @@ def godunov_solve():
         plt.figure()
         clr = plt.contourf(xx, yy, snap_u)
         plt.colorbar()
+        plt.ylabel("Time")
+        plt.xlabel("Space")
+
+        return clr
 
     def plot(x, snap_u):
         plt.figure()
@@ -180,7 +185,7 @@ def godunov_solve():
 
     # Parameters
     N = int(5e2)  # Grid Points
-    T = int(4e3)  # Time Steps
+    T = int(3e3)  # Time Steps
     L = 10  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
     x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
@@ -190,28 +195,31 @@ def godunov_solve():
     k = k_fft_norm * np.linspace(-N / 2, N / 2 - 1, N)
     lambda_ = dt / dx
     t = dt * T
+    disp_freq = 3*2 * np.pi / L
     correlations = False
 
     n_0 = 3 / (4 * np.pi)  #5.04e-16 # Mean Density
-    snaps = int(input("Number of Snapshots "))  # Number of Snapshots
-    Gamma_0 = float(input("Value of Gamma "))  # Coulomb Coupling Parameter
-    kappa_0 = float(input("Value of kappa "))  # screening something
+    # snaps = int(input("Number of Snapshots "))  # Number of Snapshots
+    # Gamma_0 = float(input("Value of Gamma "))  # Coulomb Coupling Parameter
+    # kappa_0 = float(input("Value of kappa "))  # screening something
+    snaps = 50
     beta = 1
 
     # Dispersion Relation
-    # omega = np.sqrt((k ** 2) + 3 * Gamma_0)
-    # print(omega)
+    omega = np.sqrt((disp_freq ** 2) + 3 * Gamma_0)
+    omega_c = np.sqrt((1+ 3* Gamma_0 / (disp_freq ** 2 + kappa_0 ** 2))*(disp_freq ** 2) + 3 * Gamma_0)
+    print("omega: ", omega)
+    print("omega_c: ", omega_c)
 
     # Initial Conditions
-    # n_IC = n_0 * np.ones(N)
-    # n_IC[0:int(N / 4)] = n_0 / 2
-    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * n_0 / 2
-    # n_IC[int(3 * N / 4):N] = n_0 / 2
+    # n_IC = rho_0 * np.ones(N)
+    # n_IC[0:int(N / 4)] = rho_0 / 2
+    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * rho_0 / 2
+    # n_IC[int(3 * N / 4):N] = rho_0 / 2
 
-    # n_IC = n_0 * np.exp(-(x-L/2)**2)
+    # n_IC = rho_0 * np.exp(-(x-L/2)**2)
     # v_IC = np.zeros(N)
 
-    disp_freq = 20 * 2*np.pi/L
     n_IC = n_0 * np.ones(N) + .1*np.sin(disp_freq*x)
     v_IC = .1*np.sin(disp_freq*x)
 
@@ -240,13 +248,13 @@ def godunov_solve():
     y = np.linspace(0, t, snaps + 1)
     xx, yy = np.meshgrid(x, y, sparse=False, indexing='xy')
 
-    colormap(xx,yy,snap_n)
-    plt.title("Density: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    colormap(xx,yy,snap_nc)
-    plt.title("Density: Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    # colormap(xx, yy, (snap_nc - snap_n) / n_0)
-    # plt.title("Density Difference: (No Correlations - Correlations) / Mean")
-    #
+    # cmap_n = colormap(xx,yy,snap_n)
+    # plt.title("No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    # cmap_nc = colormap(xx,yy,snap_nc)
+    # plt.title("Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+    # colormap(xx, yy, (snap_nc - snap_n) / rho_0)
+    # plt.title("Density Difference: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+
     # plot(x,snap_n)
     # plt.title("Density: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
     # plot(x, snap_nc)
@@ -255,4 +263,15 @@ def godunov_solve():
     # plot(x,snap_v)
     # plt.title("Velocity: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
-    plt.show()
+
+    numRows = len(snap_n)
+    loop = int(numRows / 2)
+    for kk in range(loop):
+        snap_n[[kk, numRows - kk - 1], :] = snap_n[[numRows - kk - 1, kk], :]
+
+    numRowsc = len(snap_nc)
+    loopc = int(numRowsc / 2 )
+    for kk in range(loopc):
+        snap_nc[[kk, numRowsc - kk - 1], :] = snap_nc[[numRowsc - kk - 1, kk], :]
+
+    return snap_n, snap_nc, L , t

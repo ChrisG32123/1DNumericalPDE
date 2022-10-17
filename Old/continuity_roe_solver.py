@@ -93,9 +93,9 @@ def continuity_roe_solver():
     n_IC = n_0 * np.ones(N)
     v_IC = np.ones(N)
     n_IC[:] = n_0 * (1 + .1 * np.sin(2 * np.pi * x/L))
-    # n_IC[0:int(N / 4)] = n_0 / 2
-    # n_IC[int(N / 4):int(3*N / 4)] = 3 * n_0 / 2
-    # n_IC[int(3* N / 4):N] = n_0 / 2
+    # n_IC[0:int(N / 4)] = rho_0 / 2
+    # n_IC[int(N / 4):int(3*N / 4)] = 3 * rho_0 / 2
+    # n_IC[int(3* N / 4):N] = rho_0 / 2
     # v_IC[:] = 2 + np.sin(2*x / L)
 
     n, flux_n, snap_n = memory_allocation_pde(n_IC)

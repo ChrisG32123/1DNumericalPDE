@@ -169,7 +169,7 @@ def plot_solutions(dt,x, n, nc, Gamma_0, kappa_0):
     plt.plot(x, nc, label="nc")
     plt.title("Density: " + "Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0) + " dt = "+ str(dt))
     plt.legend()
-    # plt.ylim(0, 2*n_0)
+    # plt.ylim(0, 2*rho_0)
 
     # plt.figure()
     # plt.plot(x, u_IC, label="u_IC")
