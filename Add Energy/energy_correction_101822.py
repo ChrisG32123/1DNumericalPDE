@@ -11,7 +11,7 @@ import time
 def solve():
     # Parameters
     N = int(1e2)  # Grid Points
-    T = int(1e4)  # Time Steps
+    T = int(1e3)  # Time Steps
     L = 100  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
     x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
@@ -25,7 +25,7 @@ def solve():
     k = k_fft_norm * np.linspace(-N / 2, N / 2 - 1, N)
 
     n_0 = 3 / (4 * np.pi)  # Mean Density
-    snaps = 100      # int(input("Number of Snapshots "))    # Number of Snapshots
+    snaps = 10      # int(input("Number of Snapshots "))    # Number of Snapshots
     Gamma_0 = 1     # float(input("Value of Gamma "))       # Coulomb Coupling Parameter
     kappa_0 = 1     # float(input("Value of kappa "))       # screening something
     snap = 0                                                # Current snapshot in time
@@ -37,6 +37,8 @@ def solve():
     nQ, nQtot, nQfluxtot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
     phitot, phimtx = np.zeros((snaps + 1, 2, N)), np.zeros((2, N))
     u, utot, e, etot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((2, N)), np.zeros((snaps + 1, 2, N))
+
+    godunov = np.zeros((3, 2, N))
 
     # Spatial Derivative
     def derivative(array2D):
@@ -76,7 +78,7 @@ def solve():
     ICfreq = 2 * np.pi / L       # Enforce Periodicity of Perturbed IC
     # ntot[snap,:] = 1 / 2 * n_0 * np.ones(N)           # n_0 * np.ones(N)
     # ntot[snap, :, int(N/2): int(3*N/2)] = 3 / 2 * n_0
-    ntot[snap,:] = n_0 * np.ones(N) + .1 * np.sin(ICfreq * x)
+    ntot[snap,:] = n_0 * np.ones(N) + .01 * np.sin(ICfreq * x)
     nutot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(2*ICfreq * x))
     netot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(3*ICfreq * x))
 
@@ -109,7 +111,7 @@ def solve():
         ecorr = np.zeros((2,N))           # TODO: Add Correlations
 
         # Right Hand Side
-        urhs = ucorr - derivative(phi)      # TODO: LINE CHANGE
+        urhs = ucorr - n*derivative(phi)      # TODO: LINE CHANGE
         erhs = ecorr - derivative(u)*e      # TODO: LINE CHANGE
 
         # Vectorize for Solve
@@ -118,8 +120,16 @@ def solve():
         sysfluxL, sysfluxR = np.roll(sysflux[:, :, :], 1, axis=-1), np.roll(sysflux[:, :, :], -1, axis=-1)
         sysrhs = np.array([np.zeros((2,N)), urhs, erhs])        # TODO: LINE CHANGE
 
+        # Godunov Method
+        godunov = np.maximum(sysflux, sysfluxR)
+        godunov = np.where(sysflux < sysfluxR, np.minimum(sysflux, sysfluxR), godunov)
+        godunov = np.where(np.greater(0, sysflux) & np.greater(sysfluxR, 0), 0, godunov)
+
         # Lax-Friedrichs
-        sys = .5 * (sysL + sysR) - .5 * lmbd * (sysfluxR - sysfluxL) + dt * sysrhs      # TODO: LINE CHANGE
+        # sys = .5 * (sysL + sysR) - .5 * lmbd * (sysfluxR - sysfluxL) + dt * sysrhs      # TODO: LINE CHANGE
+
+        # Godunov
+        sys = sys - lmbd * (godunov - np.roll(godunov, 1, axis = -1)) + dt * sysrhs
 
         # Unvectorize From Solve
         n, nu, ne = sys[0], sys[1], sys[2]  # Extrinsic Variables
@@ -139,7 +149,6 @@ def solve():
             print('Execution time:', elapsed_time, 'seconds')
             print('Approximate total time:', 10 * elapsed_time, 'seconds')
 
-
     # Visualization
     nsnap = np.swapaxes(ntot, 0, 1)
     usnap = np.swapaxes(utot, 0, 1)
@@ -157,8 +166,6 @@ def solve():
     syssnapfluxnameabrv = [["nflux", "ncflux"],["uflux", "ucflux"],["eflux", "ecflux"]]
     syssnapfluxtot = np.array([nfluxsnap, nufluxsnap, nefluxsnap])
 
-    print(etot[0])
-
     # Plotting
     for ii in range(len(syssnaptot)):
         for jj in range(len(syssnaptot[ii])):
@@ -168,14 +175,14 @@ def solve():
             plt.title(syssnapname[ii][jj] + " Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
             plt.legend()
 
-    # for ii in range(len(syssnapfluxtot)):
-    #     for jj in range(len(syssnapfluxtot[ii])):
-    #         plt.figure()
-    #         for kk in range(len(syssnapfluxtot[ii, jj])):
-    #             plt.plot(x, syssnapfluxtot[ii, jj, kk],
-    #                      label=syssnapfluxnameabrv[ii][jj] + " @ T = " + str(kk * dt * T / snaps))
-    #         plt.title(syssnapfluxname[ii][jj] + " Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    #         plt.legend()
+    for ii in range(len(syssnapfluxtot)):
+        for jj in range(len(syssnapfluxtot[ii])):
+            plt.figure()
+            for kk in range(len(syssnapfluxtot[ii, jj])):
+                plt.plot(x, syssnapfluxtot[ii, jj, kk],
+                         label=syssnapfluxnameabrv[ii][jj] + " @ T = " + str(kk * dt * T / snaps))
+            plt.title(syssnapfluxname[ii][jj] + " Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+            plt.legend()
 
     # # Difference Plots
     # plt.figure()
