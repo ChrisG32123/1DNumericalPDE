@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py">
+      <change afterPath="$PROJECT_DIR$/Add Energy/energy_2nd_order_godunov.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/energy_correction_intrinsic_variables_10_21_22.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/energy_roe.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/scalar11_3_2022.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Add Energy/energy_correction_101822.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/energy_correction_101822.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +57,27 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
+    <configuration name="energy_correction_101822" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="1DNumericalPDE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Add Energy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Add Energy/energy_correction_101822.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="euler_poisson_solver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="1DNumericalPDE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -96,6 +122,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.energy_correction_101822" />
         <item itemvalue="Python.euler_poisson_solver" />
       </list>
     </recent_temporary>
@@ -186,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665974295049</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py">
+      <created>1666029962321</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1666029962321</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

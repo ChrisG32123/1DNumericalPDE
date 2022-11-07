@@ -5,18 +5,19 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import sympy as sp
 import time
 
 
 def solve():
     # Parameters
     N = int(1e2)  # Grid Points
-    T = int(3e5)  # Time Steps
+    T = int(1e3)  # Time Steps
     L = 100  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
     x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
     dx = x[2] - x[1]  # Grid Size
-    dt = 1e-6  # Time Step Size
+    dt = 1e-3  # Time Step Size
     lmbd = dt / dx
     print(lmbd)
     t = dt*T
@@ -37,6 +38,7 @@ def solve():
     nQ, nQtot, nQfluxtot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
     phitot, phimtx = np.zeros((snaps + 1, 2, N)), np.zeros((2, N))
     u, utot, e, etot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((2, N)), np.zeros((snaps + 1, 2, N))
+    jacobianflux = np.zeros((3,3,2,N))
 
     godunov = np.zeros((3, 2, N))
 
@@ -77,10 +79,10 @@ def solve():
 
     ICfreq = 2 * np.pi / L       # Enforce Periodicity of Perturbed IC
     # ntot[snap,:] = 1 / 2 * n_0 * np.ones(N)           # n_0 * np.ones(N)
-    # ntot[snap, :, int(N/4): int(3*N/4)] = 3 / 2 * n_0
-    ntot[snap,:] = n_0 * np.ones(N) + .02 * np.sin(ICfreq * (x-L/2))
-    nutot[snap,:] = ntot[snap] * (np.ones(N) + .1 * np.sin(2*ICfreq * (x-L/2)))
-    netot[snap,:] = ntot[snap] * (np.ones(N) + .1 * np.sin(3*ICfreq * (x-L/2)))
+    # ntot[snap, :, int(N/2): int(3*N/2)] = 3 / 2 * n_0
+    ntot[snap,:] = n_0 * np.ones(N) + .01 * np.sin(ICfreq * x)
+    nutot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(2*ICfreq * x))
+    netot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(3*ICfreq * x))
 
     nQtot[snap,:] = -derivative(netot[snap,:])
     phitot[snap,:] = solvephi(ntot[snap,:])
@@ -120,10 +122,16 @@ def solve():
         sysfluxL, sysfluxR = np.roll(sysflux[:, :, :], 1, axis=-1), np.roll(sysflux[:, :, :], -1, axis=-1)
         sysrhs = np.array([np.zeros((2,N)), urhs, erhs])        # TODO: LINE CHANGE
 
-        if tt < 100:
-            print("n", n[0,int(3*N/4)-1:int(3*N/4)+4])
-            print("nu", nu[0,int(3*N/4)-1:int(3*N/4)+4])
-            print("nflux", nflux[0,int(3*N/4)-1:int(3*N/4)+4])
+        # Roe Solver
+        jacobianflux = np.array([[u, np.ones((2,N)), np.zeros((2,N))], [e, np.zeros((2,N)), np.ones((2,N))], [-nQ/n, e, u]])     # TODO: Change to numerical derivatives
+        print(jacobianflux.shape)
+
+        P, D = sp.Matrix.diagonalize(sp.Matrix(jacobianflux[:,:,:,:]))
+        absA = np.matmul(P, np.matmul(np.abs(D), np.linalg.inv(P)))
+        diffflux = np.dot(absA, sysR - sys) / 2
+
+        roeflux = (sysfluxR - sysflux) / 2 - diffflux
+
 
         # Godunov Method
         godunov = np.maximum(sysflux, sysfluxR)
@@ -134,7 +142,7 @@ def solve():
         # sys = .5 * (sysL + sysR) - .5 * lmbd * (sysfluxR - sysfluxL) + dt * sysrhs      # TODO: LINE CHANGE
 
         # Godunov
-        sys = sys - lmbd * (godunov - np.roll(godunov, 1, axis = -1)) + dt * sysrhs
+        sys = sys - lmbd * (roeflux - np.roll(roeflux,1,axis=-1)) + dt * sysrhs
 
         # Unvectorize From Solve
         n, nu, ne = sys[0], sys[1], sys[2]  # Extrinsic Variables

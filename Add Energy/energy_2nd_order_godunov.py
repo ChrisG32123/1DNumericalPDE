@@ -10,13 +10,13 @@ import time
 
 def solve():
     # Parameters
-    N = int(1e2)  # Grid Points
-    T = int(3e5)  # Time Steps
+    N = int(1e3)  # Grid Points
+    T = int(1e2)  # Time Steps
     L = 100  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
     x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
     dx = x[2] - x[1]  # Grid Size
-    dt = 1e-6  # Time Step Size
+    dt = 1e-4  # Time Step Size
     lmbd = dt / dx
     print(lmbd)
     t = dt*T
@@ -77,10 +77,10 @@ def solve():
 
     ICfreq = 2 * np.pi / L       # Enforce Periodicity of Perturbed IC
     # ntot[snap,:] = 1 / 2 * n_0 * np.ones(N)           # n_0 * np.ones(N)
-    # ntot[snap, :, int(N/4): int(3*N/4)] = 3 / 2 * n_0
-    ntot[snap,:] = n_0 * np.ones(N) + .02 * np.sin(ICfreq * (x-L/2))
-    nutot[snap,:] = ntot[snap] * (np.ones(N) + .1 * np.sin(2*ICfreq * (x-L/2)))
-    netot[snap,:] = ntot[snap] * (np.ones(N) + .1 * np.sin(3*ICfreq * (x-L/2)))
+    # ntot[snap, :, int(N/2): int(3*N/2)] = 3 / 2 * n_0
+    ntot[snap,:] = n_0 * np.ones(N) + .01 * np.sin(ICfreq * x)
+    nutot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(2*ICfreq * x))
+    netot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(3*ICfreq * x))
 
     nQtot[snap,:] = -derivative(netot[snap,:])
     phitot[snap,:] = solvephi(ntot[snap,:])
@@ -120,15 +120,25 @@ def solve():
         sysfluxL, sysfluxR = np.roll(sysflux[:, :, :], 1, axis=-1), np.roll(sysflux[:, :, :], -1, axis=-1)
         sysrhs = np.array([np.zeros((2,N)), urhs, erhs])        # TODO: LINE CHANGE
 
-        if tt < 100:
-            print("n", n[0,int(3*N/4)-1:int(3*N/4)+4])
-            print("nu", nu[0,int(3*N/4)-1:int(3*N/4)+4])
-            print("nflux", nflux[0,int(3*N/4)-1:int(3*N/4)+4])
-
         # Godunov Method
-        godunov = np.maximum(sysflux, sysfluxR)
-        godunov = np.where(sysflux < sysfluxR, np.minimum(sysflux, sysfluxR), godunov)
-        godunov = np.where(np.greater(0, sysflux) & np.greater(sysfluxR, 0), 0, godunov)
+        lin_rcnstrct = (sysR-sysL) / (2 * dx)
+        sysminus = sys + lin_rcnstrct * dx / 2
+        sysplus = sysR - np.roll(lin_rcnstrct,-1, axis=-1) * dx / 2
+
+        nminus, numinus, neminus = sysminus[0], sysminus[1], sysminus[2]
+        nplus, nuplus, neplus = sysplus[0], sysplus[1], sysplus[2]
+        nQminus, nQplus = -nminus * derivative(neminus/nminus), -nplus * derivative(neplus/nplus)
+
+        nfluxminus, nfluxplus = derivative(numinus), derivative(nuplus)
+        nufluxminus, nufluxplus = derivative(neminus), derivative(neplus)
+        nefluxminus, nefluxplus = derivative(nQminus + numinus*neminus/nminus), derivative(nQplus + nuplus*neplus/nplus)
+
+        sysfluxminus = np.array([nfluxminus, nufluxminus, nefluxminus])
+        sysfluxplus = np.array([nfluxplus, nufluxplus, nefluxplus])
+
+        godunov = np.maximum(sysfluxminus, sysfluxplus)
+        godunov = np.where(sysfluxminus < sysfluxplus, np.minimum(sysfluxminus, sysfluxplus), godunov)
+        godunov = np.where(np.greater(0, sysfluxminus) & np.greater(sysfluxplus, 0), 0, godunov)
 
         # Lax-Friedrichs
         # sys = .5 * (sysL + sysR) - .5 * lmbd * (sysfluxR - sysfluxL) + dt * sysrhs      # TODO: LINE CHANGE

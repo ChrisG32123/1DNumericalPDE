@@ -6,7 +6,10 @@ import sympy as sp
 import time
 import energy_addition_101322
 import energy_correction_101822
-
+import energy_correction_intrinsic_variables_10_21_22
+import scalar11_3_2022
+import energy_2nd_order_godunov
+import energy_roe
 
 # Xpts = int(1e2)  # Grid Points
 # X0, Xf = 0, 10  # Space Domain
@@ -21,7 +24,11 @@ import energy_correction_101822
 def main():
 
     # energy_addition_101322.solve()
-    energy_correction_101822.solve()
+    # energy_correction_101822.solve()
+    # energy_2nd_order_godunov.solve()
+    # energy_roe.solve()
+    # energy_correction_intrinsic_variables_10_21_22.solve()
+    scalar11_3_2022.solve()
 
 # Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main
 # Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main

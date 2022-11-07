@@ -11,12 +11,12 @@ import time
 def solve():
     # Parameters
     N = int(1e2)  # Grid Points
-    T = int(3e5)  # Time Steps
-    L = 100  # Domain Size
+    T = int(5e3)  # Time Steps
+    L = 10  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
     x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
     dx = x[2] - x[1]  # Grid Size
-    dt = 1e-6  # Time Step Size
+    dt = 1e-3  # Time Step Size
     lmbd = dt / dx
     print(lmbd)
     t = dt*T
@@ -25,16 +25,16 @@ def solve():
     k = k_fft_norm * np.linspace(-N / 2, N / 2 - 1, N)
 
     n_0 = 3 / (4 * np.pi)  # Mean Density
-    snaps = 10      # int(input("Number of Snapshots "))    # Number of Snapshots
+    snaps = 50      # int(input("Number of Snapshots "))    # Number of Snapshots
     Gamma_0 = 1     # float(input("Value of Gamma "))       # Coulomb Coupling Parameter
     kappa_0 = 1     # float(input("Value of kappa "))       # screening something
     snap = 0                                                # Current snapshot in time
 
     # Memory Allocation
     n, ntot, nfluxtot= np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
-    nu, nutot, nufluxtot, nucorrtot, nurhstot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
-    ne, netot, nefluxtot, necorrtot, nerhstot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
-    nQ, nQtot, nQfluxtot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
+    u, utot, ufluxtot, ucorrtot, urhstot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
+    e, etot, efluxtot, ecorrtot, erhstot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
+    Q, Qtot, Qfluxtot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((snaps + 1, 2, N))
     phitot, phimtx = np.zeros((snaps + 1, 2, N)), np.zeros((2, N))
     u, utot, e, etot = np.zeros((2, N)), np.zeros((snaps + 1, 2, N)), np.zeros((2, N)), np.zeros((snaps + 1, 2, N))
 
@@ -42,7 +42,7 @@ def solve():
 
     # Spatial Derivative
     def derivative(array2D):
-        return (array2D[:] - np.roll(array2D[:], 1, axis=1)) / dx
+        return (array2D[:] - np.roll(array2D[:], 1, axis=-1)) / dx
 
     def solvephi(den):
         phi = np.zeros((2,N))
@@ -77,82 +77,98 @@ def solve():
 
     ICfreq = 2 * np.pi / L       # Enforce Periodicity of Perturbed IC
     # ntot[snap,:] = 1 / 2 * n_0 * np.ones(N)           # n_0 * np.ones(N)
-    # ntot[snap, :, int(N/4): int(3*N/4)] = 3 / 2 * n_0
-    ntot[snap,:] = n_0 * np.ones(N) + .02 * np.sin(ICfreq * (x-L/2))
-    nutot[snap,:] = ntot[snap] * (np.ones(N) + .1 * np.sin(2*ICfreq * (x-L/2)))
-    netot[snap,:] = ntot[snap] * (np.ones(N) + .1 * np.sin(3*ICfreq * (x-L/2)))
+    # ntot[snap, :, int(N/2): int(3*N/2)] = 3 / 2 * n_0
+    ntot[snap,:] = n_0 * np.ones(N) + .01 * np.sin(ICfreq * (x-L/2))
+    utot[snap,:] = np.ones(N) + .1 * np.sin(2*ICfreq * (x-L/2))
+    etot[snap,:] = np.ones(N) + .1 * np.sin(3*ICfreq * (x-L/2))
 
-    nQtot[snap,:] = -derivative(netot[snap,:])
+    Qtot[snap,:] = -derivative(etot[snap,:])
     phitot[snap,:] = solvephi(ntot[snap,:])
-    utot[snap,:] = nutot[snap,:] / ntot[snap]
-    etot[snap,:] = netot[snap] / ntot[snap]
 
     # Define Variables at T = t0
-    n, nu, ne = ntot[snap], nutot[snap], netot[snap]    # Extrinsic Variables
-    u, e = utot[snap], etot[snap]                       # Intrinsic Variables
+    n, u, e = ntot[snap], utot[snap], etot[snap]  # Intrinsic Variables
+    Q = - derivative(e)  # Apply Closure
+    phi = solvephi(n)  # Solve Phi
+    nflux = derivative(n * u)
+    uflux = derivative(e + u * u / 2)
+    eflux = derivative(Q)
+
+    nfluxtot[snap, :] = derivative(n*u)
+    ufluxtot[snap, :] = derivative(e + u*u/2)
+    efluxtot[snap, :] = derivative(Q)
+
+    sys = np.array([n, u, e])
+
+    # print(n[0,0], n[0,-1], u[0,0], u[0,-1], e[0,0], e[0,-1])
+    # print(nflux[0,0], nflux[0,-1], uflux[0,0], uflux[0,-1], eflux[0,0], eflux[0,-1])
+    #
+    # plt.figure()
+    # plt.plot(x, ICfreq*np.cos(ICfreq*x), label="cos")
+    # plt.plot(x,derivative(np.sin(ICfreq*x)), label = "sin")
+    # plt.legend()
+    # plt.show(block=False)
 
     st = time.time()
     for tt in range(1, T + 1):
+        if tt == 3:
+            print(tt, n[0,0])
 
-        # Define Flux Functions
-        nflux = derivative(nu)
-        nuflux = derivative(ne)
-        neflux = derivative(nQ + nu*ne/n)
+        # Unvectorize From Solve
+        n, u, e = sys[0], sys[1], sys[2]  # Intensive Variables
 
-        nQ = -n * derivative(e)  # Apply Closure
+        if tt == 3:
+            print(tt, n[0,0])
+
+        Q = - derivative(e)  # Apply Closure
         phi = solvephi(n)  # Solve Phi
 
-        # if tt < 5:
-        #     print(n[0]*u[0])
-        #     print(nflux[0])
+        # Define Flux Functions
+        nflux = derivative(n * u)
+        uflux = derivative(e + u * u / 2)
+        eflux = derivative(Q)
 
         # Solve Correlation
         ucorr = np.zeros((2,N))  # np.array([np.zeros(N), fft_correlations(k,n[1], Gamma_0, kappa_0)])    # TODO: Add Correlations
         ecorr = np.zeros((2,N))           # TODO: Add Correlations
 
         # Right Hand Side
-        urhs = ucorr - n*derivative(phi)      # TODO: LINE CHANGE
+        urhs = ucorr/n - derivative(np.log(n))*(e+u*u) - derivative(phi)      # TODO: LINE CHANGE
         erhs = ecorr - derivative(u)*e      # TODO: LINE CHANGE
 
+        if tt == 3:
+            print(tt, n[0,0])
+
         # Vectorize for Solve
-        sys, sysflux = np.array([n, nu, ne]), np.array([nflux, nuflux, neflux])
+        sys, sysflux = np.array([n, u, e]), np.array([nflux, uflux, eflux])
         sysL, sysR = np.roll(sys[:, :, :], 1, axis=-1), np.roll(sys[:, :, :], -1, axis=-1)
         sysfluxL, sysfluxR = np.roll(sysflux[:, :, :], 1, axis=-1), np.roll(sysflux[:, :, :], -1, axis=-1)
         sysrhs = np.array([np.zeros((2,N)), urhs, erhs])        # TODO: LINE CHANGE
-
-        if tt < 100:
-            print("n", n[0,int(3*N/4)-1:int(3*N/4)+4])
-            print("nu", nu[0,int(3*N/4)-1:int(3*N/4)+4])
-            print("nflux", nflux[0,int(3*N/4)-1:int(3*N/4)+4])
 
         # Godunov Method
         godunov = np.maximum(sysflux, sysfluxR)
         godunov = np.where(sysflux < sysfluxR, np.minimum(sysflux, sysfluxR), godunov)
         godunov = np.where(np.greater(0, sysflux) & np.greater(sysfluxR, 0), 0, godunov)
 
-        # Lax-Friedrichs
-        # sys = .5 * (sysL + sysR) - .5 * lmbd * (sysfluxR - sysfluxL) + dt * sysrhs      # TODO: LINE CHANGE
-
         # Godunov
-        sys = sys - lmbd * (godunov - np.roll(godunov, 1, axis = -1)) + dt * sysrhs
+        # sys = sys - lmbd * (godunov - np.roll(godunov, 1, axis = -1)) + dt * sysrhs
 
-        # Unvectorize From Solve
-        n, nu, ne = sys[0], sys[1], sys[2]  # Extrinsic Variables
-        u, e = nu / n, ne / n  # Intrinsic Variables
+        sys = sys - lmbd * (np.roll(godunov, 1, axis = 1) - godunov) + dt * sysrhs
+
+        if tt == 3:
+            print(tt, n[0,0])
 
         # Check Snaps & Store Data
         if tt % (T / snaps) == 0:
             snap += 1
-            nfluxtot[snap], nufluxtot[snap], nefluxtot[snap] = nflux, nuflux, neflux
-            ntot[snap], nutot[snap], netot[snap] = n, nu, ne
-            utot[snap], etot[snap] = u, e
+            nfluxtot[snap], ufluxtot[snap], efluxtot[snap] = nflux, uflux, eflux
+            ntot[snap], utot[snap], etot[snap] = n, u, e
 
         # Track Time
-        if tt == int(T / 10):
+        if tt == 100 :
             et = time.time()
             elapsed_time = et - st
             print('Execution time:', elapsed_time, 'seconds')
-            print('Approximate total time:', 10 * elapsed_time, 'seconds')
+            print('Approximate total time:', elapsed_time * T / 100, 'seconds')
 
     # Visualization
     nsnap = np.swapaxes(ntot, 0, 1)
@@ -164,19 +180,19 @@ def solve():
     syssnaptot = np.array([nsnap, usnap, esnap])
 
     nfluxsnap = np.swapaxes(nfluxtot, 0, 1)
-    nufluxsnap = np.swapaxes(nufluxtot, 0, 1)
-    nefluxsnap = np.swapaxes(nefluxtot, 0, 1)
+    ufluxsnap = np.swapaxes(ufluxtot, 0, 1)
+    efluxsnap = np.swapaxes(efluxtot, 0, 1)
 
     syssnapfluxname = [["Density Flux, NC", "Density Flux, C"], ["Velocity Flux, NC", "Velocity Flux, C"], ["Energy Flux, NC", "Energy Flux, C"]]
     syssnapfluxnameabrv = [["nflux", "ncflux"],["uflux", "ucflux"],["eflux", "ecflux"]]
-    syssnapfluxtot = np.array([nfluxsnap, nufluxsnap, nefluxsnap])
+    syssnapfluxtot = np.array([nfluxsnap, ufluxsnap, efluxsnap])
 
     # Plotting
     for ii in range(len(syssnaptot)):
         for jj in range(len(syssnaptot[ii])):
             plt.figure()
             for kk in range(len(syssnaptot[ii,jj])):
-                plt.plot(x, syssnaptot[ii,jj,kk], label= syssnapnameabrv[ii][jj] + " @ T = " + str(kk * dt * T / snaps))
+                plt.plot(x, syssnaptot[ii,jj,kk], label=syssnapnameabrv[ii][jj] + " @ T = " + str(round(kk * dt * T / snaps,2)))
             plt.title(syssnapname[ii][jj] + " Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
             plt.legend()
 
@@ -184,8 +200,7 @@ def solve():
         for jj in range(len(syssnapfluxtot[ii])):
             plt.figure()
             for kk in range(len(syssnapfluxtot[ii, jj])):
-                plt.plot(x, syssnapfluxtot[ii, jj, kk],
-                         label=syssnapfluxnameabrv[ii][jj] + " @ T = " + str(kk * dt * T / snaps))
+                plt.plot(x, syssnapfluxtot[ii, jj, kk], label=syssnapfluxnameabrv[ii][jj] + " @ T = " + str(round(kk * dt * T / snaps,2)))
             plt.title(syssnapfluxname[ii][jj] + " Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
             plt.legend()
 
@@ -204,7 +219,6 @@ def solve():
     #         clr = plt.imshow(syssnaptot[ii,jj])
     #         plt.colorbar()
     #         plt.title(syssnapname[ii][jj] + " Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    #
     #
     # for ii in range(len(syssnapfluxtot)):
     #     for jj in range(len(syssnapfluxtot[ii])):
