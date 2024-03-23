@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Non-Dimensionalized Euler-Poisson Equations
 # n_t + (nu)_x = 0
 # n(u_t + u*u_x) = -n_x - gamma*n*phi_x + conv(n-n_mean,c_hat)
-# phi_xx = f(x,t) = 3 - 4*pi*n
+# phi_xx = f(X,t) = 3 - 4*pi*n
 
 
 def euler_poisson_corr(correlation, Gamma_0, kappa_0):
@@ -56,10 +56,10 @@ def euler_poisson_corr(correlation, Gamma_0, kappa_0):
 
     # Setting Initial Conditions
     n = n_IC
-    # nTot = np.zeros(N)
+    # nTot = np.zeros(nx)
     u = u_IC
-    # uTot = np.zeros(N)
-    # phiTot = np.zeros(N)
+    # uTot = np.zeros(nx)
+    # phiTot = np.zeros(nx)
 
     # Convolution Function using and updating density n TODO: No Convolutions
     # def newconv(delta_n, rho_integral):
@@ -92,7 +92,7 @@ def euler_poisson_corr(correlation, Gamma_0, kappa_0):
             snap_counter = snap_counter + 1
 
         # Phi
-        # Define f(x)
+        # Define f(X)
         f = 3 - 4 * np.pi * dx * dx * n
         f = f - np.mean(f)
 
@@ -138,7 +138,7 @@ def euler_poisson_corr(correlation, Gamma_0, kappa_0):
         uminus = np.roll(u, 1)
         u = 0.5 * (uplus + uminus) - .5 * (dt / dx) * (Fuplus - Fuminus)
 
-        # Measure integral over n(x,t), u(x,t), phi(x,t)
+        # Measure integral over n(X,t), u(X,t), phi(X,t)
         # nTot[tt] = np.sum(n) * dx
         # uTot[tt] = np.sum(u) * dx
         # phiTot[tt] = np.sum(phi) * dx
@@ -168,7 +168,7 @@ def euler_poisson_corr(correlation, Gamma_0, kappa_0):
     plt.title("Velocity: " + "Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0) + " Correlation = " + "true" if correlation else "false")
     plt.legend()
 
-    # Plot integral of phi(x,t), n(x,t), and u(x,t) over time
+    # Plot integral of phi(X,t), n(X,t), and u(X,t) over time
     # plt.plot(phiTot, label = "phiTot")
     # plt.plot(nTot, label = "nTot")
     # plt.plot(uTot, label = "uTot")
@@ -226,10 +226,10 @@ def euler_poisson_nocorr(correlation, Gamma_0, kappa_0):
 
     # Setting Initial Conditions
     n = n_IC
-    # nTot = np.zeros(N)
+    # nTot = np.zeros(nx)
     u = u_IC
-    # uTot = np.zeros(N)
-    # phiTot = np.zeros(N)
+    # uTot = np.zeros(nx)
+    # phiTot = np.zeros(nx)
 
     # Convolution Function using and updating density n TODO: No Convolutions
     # def newconv(delta_n, rho_integral):
@@ -262,7 +262,7 @@ def euler_poisson_nocorr(correlation, Gamma_0, kappa_0):
             snap_counter = snap_counter + 1
 
         # Phi
-        # Define f(x)
+        # Define f(X)
         f = 3 - 4 * np.pi * dx * dx * n
         f = f - np.mean(f)
 
@@ -308,7 +308,7 @@ def euler_poisson_nocorr(correlation, Gamma_0, kappa_0):
         uminus = np.roll(u, 1)
         u = 0.5 * (uplus + uminus) - .5 * (dt / dx) * (Fuplus - Fuminus)
 
-        # Measure integral over n(x,t), u(x,t), phi(x,t)
+        # Measure integral over n(X,t), u(X,t), phi(X,t)
         # nTot[tt] = np.sum(n) * dx
         # uTot[tt] = np.sum(u) * dx
         # phiTot[tt] = np.sum(phi) * dx
@@ -338,7 +338,7 @@ def plot_solutions():
     plt.title("Velocity: " + "Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0) + " Correlation = " + "true" if correlation else "false")
     plt.legend()
 
-    # Plot integral of phi(x,t), n(x,t), and u(x,t) over time
+    # Plot integral of phi(X,t), n(X,t), and u(X,t) over time
     # plt.plot(phiTot, label = "phiTot")
     # plt.plot(nTot, label = "nTot")
     # plt.plot(uTot, label = "uTot")

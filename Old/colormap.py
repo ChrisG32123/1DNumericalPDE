@@ -189,13 +189,13 @@ def color():
 
     # plt.figure()
     # for ii in range(len(snap_v)):
-    #     plt.plot(x, snap_v[ii], label="v @ T = " + str(ii * dt * T / snaps))
+    #     plt.plot(X, snap_v[ii], label="v @ T = " + str(ii * dt * T / snaps))
     # plt.title("Velocity: Gamma = " + str(Gamma))
     # plt.legend()
     #
     # plt.figure()
     # for ii in range(len(snap_phi)):
-    #     plt.plot(x, snap_phi[ii], label="phi @ T = " + str(ii * dt * T / snaps))
+    #     plt.plot(X, snap_phi[ii], label="phi @ T = " + str(ii * dt * T / snaps))
     # plt.title("Electrostatic Potential: Gamma = " + str(Gamma))
     # plt.legend()
 

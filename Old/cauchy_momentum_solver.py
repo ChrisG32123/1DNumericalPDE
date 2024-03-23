@@ -45,24 +45,24 @@ def cauchy():
         n = 0.5 * (nplus + nminus) - 0.5 * dt * (Fplus - Fminus) / dx
         u = 0.5 * (uplus + uminus) - (dt / dx) * (-uplus ** 2 / 2 + uminus ** 2 / 2 + np.log(nplus / nminus) + gamma * (phiplus - phiminus))
 
-        # Measure integral over n(x,t), u(x,t), phi(x,t)
+        # Measure integral over n(X,t), u(X,t), phi(X,t)
         nTot[tt] = np.sum(n) * dx
         uTot[tt] = np.sum(u) * dx
         phiTot[tt] = np.sum(phi) * dx
 
-    # Plot n(x,0) and n(x,t)
+    # Plot n(X,0) and n(X,t)
     plt.figure()
     plt.plot(x, n_0, label="rho_0")
     plt.plot(x, n, label="n")
 
-    # Plot integral of n(x,t) over time
+    # Plot integral of n(X,t) over time
     # plt.plot(nTot, label = "nTot")
 
-    # Plot u(x,0) and u(x,t)
+    # Plot u(X,0) and u(X,t)
     plt.plot(x, u_0, label="u_0")
     plt.plot(x, u, label="u")
 
-    # Plot integral of u(x,t) over time
+    # Plot integral of u(X,t) over time
     # plt.plot(uTot, label = "uTot")
 
     plt.title("Continuity")

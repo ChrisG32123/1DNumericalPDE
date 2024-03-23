@@ -76,8 +76,8 @@ def solve():
     # Initial Conditions & Initialization
 
     ICfreq = 2 * np.pi / L       # Enforce Periodicity of Perturbed IC
-    # ntot[snap,:] = 1 / 2 * n_0 * np.ones(N)           # n_0 * np.ones(N)
-    # ntot[snap, :, int(N/2): int(3*N/2)] = 3 / 2 * n_0
+    # ntot[cursnap,:] = 1 / 2 * mean_n * np.ones(nx)           # mean_n * np.ones(nx)
+    # ntot[cursnap, :, int(nx/2): int(3*nx/2)] = 3 / 2 * mean_n
     ntot[snap,:] = n_0 * np.ones(N) + .01 * np.sin(ICfreq * x)
     nutot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(2*ICfreq * x))
     netot[snap,:] = ntot[snap] * (.5 * np.ones(N) + .1 * np.sin(3*ICfreq * x))
@@ -107,7 +107,7 @@ def solve():
         #     print(nflux[0])
 
         # Solve Correlation
-        ucorr = np.zeros((2,N))  # np.array([np.zeros(N), fft_correlations(k,n[1], Gamma_0, kappa_0)])    # TODO: Add Correlations
+        ucorr = np.zeros((2,N))  # np.array([np.zeros(nx), fft_correlations(k,n[1], Gamma_0, kappa_0)])    # TODO: Add Correlations
         ecorr = np.zeros((2,N))           # TODO: Add Correlations
 
         # Right Hand Side
@@ -207,7 +207,7 @@ def solve():
 
     # ImShow        # TODO: Swap Rows, Normalize Axises
     # y = np.linspace(0, t, snaps + 1)
-    # xx,yy = np.meshgrid(x, y, sparse=False, indexing='xy')
+    # xx,yy = np.meshgrid(X, y, sparse=False, indexing='xy')
     # for ii in range(len(syssnaptot)):
     #     for jj in range(len(syssnaptot[ii])):
     #         plt.figure()
@@ -225,7 +225,7 @@ def solve():
 
     # Color Map
     # y = np.linspace(0, t, snaps + 1)
-    # xx,yy = np.meshgrid(x, y, sparse=False, indexing='xy')
+    # xx,yy = np.meshgrid(X, y, sparse=False, indexing='xy')
     # for ii in range(len(syssnaptot)):
     #     for jj in range(len(syssnaptot[ii])):
     #         plt.figure()

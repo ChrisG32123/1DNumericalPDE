@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Non-Dimensionalized Euler-Poisson Equations
 # n_t + (nu)_x = 0
 # n(u_t + u*u_x) = -n_x - gamma*n*phi_x + conv(n-n_mean,c_hat)
-# phi_xx = f(x,t) = 3 - 4*pi*n
+# phi_xx = f(X,t) = 3 - 4*pi*n
 
 
 def test_corr():
@@ -42,10 +42,10 @@ def test_corr():
 
     # Setting Initial Conditions
     nc = n_IC
-    # nTot = np.zeros(N)
+    # nTot = np.zeros(nx)
     uc = u_IC
-    # uTot = np.zeros(N)
-    # phiTot = np.zeros(N)
+    # uTot = np.zeros(nx)
+    # phiTot = np.zeros(nx)
 
     # Choose flux functions
     def f_n(n, u):
@@ -57,7 +57,7 @@ def test_corr():
     # Solve
     for tt in range(T):
         # Phi
-        # Define f(x)
+        # Define f(X)
         f = 3 - 4 * np.pi * dx * dx * nc
         f = f - np.mean(f)
 
@@ -102,7 +102,7 @@ def test_corr():
         uminus = np.roll(uc, 1)
         uc = 0.5 * (uplus + uminus) - .5 * (dt / dx) * (Fuplus - Fuminus)
 
-        # Measure integral over n(x,t), u(x,t), phi(x,t)
+        # Measure integral over n(X,t), u(X,t), phi(X,t)
         # nTot[tt] = np.sum(n) * dx
         # uTot[tt] = np.sum(u) * dx
         # phiTot[tt] = np.sum(phi) * dx

@@ -126,12 +126,12 @@ class simulate:
     def eIC(self, value): self._eIC = value
 
     def mem(self, uIC):
-        utot = np.zeros((2, self.domain.totsnaps, self.domain.Xpts))
+        utot = np.zeros((2, self.domain.totsnaps, self.domain.nx))
         utot[:, 0] = np.copy(uIC)
         u = np.copy(uIC)
 
-        Futot = np.zeros((2, self.domain.totsnaps - 1, self.domain.Xpts))
-        Fu = np.zeros(self.domain.Xpts)
+        Futot = np.zeros((2, self.domain.totsnaps - 1, self.domain.nx))
+        Fu = np.zeros(self.domain.nx)
         return u, utot, Fu, Futot
 
     def solve_pressure(self, c, rho, phi, cor):
@@ -141,19 +141,19 @@ class simulate:
         return p
 
     def solve_phi(self, rho, phi):
-        A = np.zeros(self.domain.Xpts)
+        A = np.zeros(self.domain.nx)
         # Define b
         b = 3 - 4 * np.pi * self.domain.dx * self.domain.dx * rho
         b = b - np.mean(b)
         # First sweep
         A[0] = -0.5
         b[0] = -0.5 * b[0]
-        for ii in range(1, self.domain.Xpts):
+        for ii in range(1, self.domain.nx):
             A[ii] = -1 / (2 + A[ii - 1])
             b[ii] = (b[ii - 1] - b[ii]) / (2 + A[ii - 1])
         # Second sweep
-        phi[0] = b[self.domain.Xpts - 1] - b[self.domain.Xpts - 2]
-        for ii in range(1, self.domain.Xpts - 1):
+        phi[0] = b[self.domain.nx - 1] - b[self.domain.nx - 2]
+        for ii in range(1, self.domain.nx - 1):
             phi[ii] = (b[ii - 1] - phi[ii - 1]) / A[ii - 1]
         return phi
 
@@ -214,7 +214,7 @@ class simulate:
 class plotting:
 
     def __init__(self, domain, simulation):
-        self.domain = domain(domain.Xpts, domain.X0, domain.Xf, domain.dt, domain.T0, domain.Tf, domain.totsnaps, domain.Gamma_0, domain.kappa_0, domain.beta)
+        self.domain = domain(domain.nx, domain.X0, domain.Xf, domain.dt, domain.T0, domain.Tf, domain.totsnaps, domain.Gamma_0, domain.kappa_0, domain.beta)
         self.simulation = simulation(domain, simulation.rhoIC, simulation.mIC, simulation.eIC)
 
     def plot(self, X, u):
@@ -274,7 +274,7 @@ class plotting:
 
             fig.tight_layout(pad=.01)
             fig.subplots_adjust(top=0.9)
-            fig.suptitle("Density: Xpts Correlations")
+            fig.suptitle("Density: nx Correlations")
             cbar = fig.colorbar(im, ax=axes.ravel().tolist(), shrink=1)
             plt.show(block=False)
 
@@ -301,7 +301,7 @@ def main():
 
 # # TODO: Main
 # for c in range(2):
-#     plot(x, n[c])
-#     plot(x, v[c])
-#     cmap(x, t, n[c])
-#     disp_rel_cmap(x, t, n[c])
+#     plot(X, n[c])
+#     plot(X, v[c])
+#     cmap(X, t, n[c])
+#     disp_rel_cmap(X, t, n[c])

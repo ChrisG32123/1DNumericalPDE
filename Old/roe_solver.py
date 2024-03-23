@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # TODO: Changes
 #   A=P|D|P^-1 not A=PDP^-1
-#   (1,N) v. N
+#   (1,nx) v. nx
 #   vector PDE instead of n and v system
 #   phi and f_c on rhs
 
@@ -40,7 +40,7 @@ def roe_solve():
 
     # Memory Allocation
     def memory_allocation_pde(u_IC):
-        # u = np.zeros((1, N))
+        # u = np.zeros((1, nx))
         # u[0] = u_IC
         u = np.copy(u_IC)
         uL = np.roll(u, -1)

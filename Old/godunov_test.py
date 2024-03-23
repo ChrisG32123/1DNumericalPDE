@@ -30,7 +30,7 @@ def godunov_test():
     dt = T / (Nt - 1)
     time = np.array([range(0, Nt)]) * dt
 
-    # set x arrays
+    # set X arrays
     dx = L / Nx
     x = np.zeros((Nx + 1, 1))
     xc = np.zeros((Nx, 1))

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # TODO: Changes
 #   A=P|D|P^-1 not A=PDP^-1
-#   (1,N) v. N
+#   (1,nx) v. nx
 #   vector PDE instead of n and v system
 #   phi and f_c on rhs
 
@@ -50,7 +50,7 @@ def roe_rewrite():
 
         roe_flux = np.zeros((2,N))
 
-        # R = np.sqrt(n[0] / n[N-1])  # R_{j+1/2}
+        # R = np.sqrt(n[0] / n[nx-1])  # R_{j+1/2}
         # n_hat = R * n[ii]  # {hat rho}_{j+1/2}
         # v_hat = (R * v[ii + 1] + v[ii]) / (R + 1)  # {hat U}_{j+1/2}
         #
@@ -126,22 +126,22 @@ def roe_rewrite():
         roe_flux[:, N-1] = np.dot(A, Vdif)
 
         # ==============================================================
-        # Compute Phi=(F(W_{j+1}+F(W_j))/2-|A_{j+1/2}| (W_{j+1}-W_j)/2
+        # Compute Phi=(F_fourier(W_{j+1}+F_fourier(W_j))/2-|A_{j+1/2}| (W_{j+1}-W_j)/2
         # ==============================================================
 
         F = func_flux(V)
         # print("roe_flux", roe_flux.shape)
-        # print("F[:, 0:N - 1]", F[:, 0:N - 1].shape)
-        # print("F[:, 1:N]", F[:, 1:N].shape)
-        # print("F[:, 0:N]", F[:, 0:N].shape)
-        # print("F", F.shape)
-        # roe_flux = 0.5 * (F[:, 0:N - 1] + F[:, 1:N]) - 0.5 * roe_flux
+        # print("F_fourier[:, 0:nx - 1]", F_fourier[:, 0:nx - 1].shape)
+        # print("F_fourier[:, 1:nx]", F_fourier[:, 1:nx].shape)
+        # print("F_fourier[:, 0:nx]", F_fourier[:, 0:nx].shape)
+        # print("F_fourier", F_fourier.shape)
+        # roe_flux = 0.5 * (F_fourier[:, 0:nx - 1] + F_fourier[:, 1:nx]) - 0.5 * roe_flux
         roe_flux = 0.5 * (F + np.roll(F,1, axis=1)) - 0.5 * roe_flux
 
-        # dF = (roe_flux[:, 1:N-1] - roe_flux[:, 0:N-2])
+        # dF = (roe_flux[:, 1:nx-1] - roe_flux[:, 0:nx-2])
         dF = roe_flux - np.roll(roe_flux,-1, axis = 1)
 
-        # dF_BC = roe_flux[:,0] - roe_flux[:,N-1]
+        # dF_BC = roe_flux[:,0] - roe_flux[:,nx-1]
         # dF = np.hstack([dF, np.atleast_2d(dF_BC).T])
         # print("dF.shape", dF.shape)
         # print("V.shape", V.shape)
@@ -248,13 +248,13 @@ def roe_rewrite():
             print(n)
             print("dF", dF.shape)
             print(dF)
-            # print("V[:, 0:N-1]", V[:, 0:N-1].shape)
-            # print("V[:, 0:N]", V[:, 0:N].shape)
-            # print("dF[:,0:N-1]", dF[:,0:N-1].shape)
-        # V[:, 0] = V0[:, 0] - lambda_ * dF[:, N-1]
+            # print("V[:, 0:nx-1]", V[:, 0:nx-1].shape)
+            # print("V[:, 0:nx]", V[:, 0:nx].shape)
+            # print("dF[:,0:nx-1]", dF[:,0:nx-1].shape)
+        # V[:, 0] = V0[:, 0] - lambda_ * dF[:, nx-1]
         # V[:, 1:-2] = V0[:, 1:-2] - lambda_ * dF
 
-        # V[:, 0] = V0[:, 0] - lambda_ * dF[:, N-1]
+        # V[:, 0] = V0[:, 0] - lambda_ * dF[:, nx-1]
         V[:, 0:N-1] = V0[:, 0:N-1] - lambda_ * dF[:, 0:N-1]
 
         n = V[0]

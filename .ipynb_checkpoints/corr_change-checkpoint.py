@@ -87,7 +87,7 @@ def corr_change(Gamma_0,kappa_0):
         delta_n = nc - n_0
 
         # f_fft_norm = 1 / dx
-        # k_fft_norm = 2 * np.pi / (N * dx)
+        # k_fft_norm = 2 * np.pi / (nx * dx)
 
         # Parameters
         Nr = int(1e3)
@@ -131,7 +131,7 @@ def corr_change(Gamma_0,kappa_0):
             # Compute RHS
             phi = compute_phi(n, phi, A)
             if correlations:
-                # f_corr = anisotropic_correlations(n,n3,x,x3,f_corr)
+                # f_corr = anisotropic_correlations(n,n3,X,x3,f_corr)
                 f_corr = fft_meanfield(k,n,Gamma,kappa)
                 f_corrL, f_corrR = update_Riemann_values(f_corr)
                 rhs = -(f_corrR - f_corrL)/dx - Gamma_0 * (phiR - phiL) / dx # TODO: -1/2 or 1??
@@ -180,7 +180,7 @@ def corr_change(Gamma_0,kappa_0):
         #
         # plt.imshow(snap_u, cmap="viridis", aspect='auto')
         # plt.ylim(0,t)
-        # plt.xlim(0,L)
+        # plt.xlim(0,Xlngth)
         # plt.ylabel("Time")
         # plt.xlabel("Space")
         #
@@ -251,16 +251,16 @@ def corr_change(Gamma_0,kappa_0):
     print("omega_c: ", omega_c)
 
     # Initial Conditions
-    # n_IC = rho_0 * np.ones(N)
-    # n_IC[0:int(N / 4)] = rho_0 / 2
-    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * rho_0 / 2
-    # n_IC[int(3 * N / 4):N] = rho_0 / 2
+    # n_IC = rho_0 * np.ones(nx)
+    # n_IC[0:int(nx / 4)] = rho_0 / 2
+    # n_IC[int(nx / 4):int(3 * nx / 4)] = 3 * rho_0 / 2
+    # n_IC[int(3 * nx / 4):nx] = rho_0 / 2
 
-    # n_IC = rho_0 * np.exp(-(x-L/2)**2)
+    # n_IC = rho_0 * np.exp(-(X-Xlngth/2)**2)
     v_IC = np.zeros(N)
 
     n_IC = n_0 * np.ones(N) + .1*np.sin(disp_freq*x)
-    # v_IC = .1*np.sin(disp_freq*x)
+    # v_IC = .1*np.sin(disp_freq*X)
 
     n, nL, nR, flux_n, FnL, FnR, snap_n = memory_allocation_PDE(n_IC)
     v, vL, vR, flux_v, FvL, FvR, snap_v = memory_allocation_PDE(v_IC)
@@ -288,7 +288,7 @@ def corr_change(Gamma_0,kappa_0):
     plot(x, snap_nc)
     plt.title("Density: Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
-    # plot(x,snap_v)
+    # plot(X,snap_v)
     # plt.title("Velocity: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
 

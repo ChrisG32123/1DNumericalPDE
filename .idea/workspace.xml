@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py">
-      <change afterPath="$PROJECT_DIR$/Add Energy/energy_2nd_order_godunov.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Add Energy/energy_correction_intrinsic_variables_10_21_22.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Add Energy/energy_roe.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Add Energy/scalar11_3_2022.py" afterDir="false" />
+    <list default="true" id="47ab893c-bd2f-45a7-b470-ea56934e5ffb" name="Default Changelist" comment="Change Vector to Scalar&#10;Fixed Imshow&#10;2D FFT Done&#10;&#10;scalar11_3_2022.py">
+      <change afterPath="$PROJECT_DIR$/3D/fourier_convolution_practice.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/12_25_22.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/5_15_23.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/7_3_23.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/add_energy_upwinding_11_14_22.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/advection_energy_11_20_222.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/each_field_at_a_time_11_13_22.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/fix_eqs_12_19_22.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Add Energy/fix_eqs_12_5_22.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HDFT Paper/6_12_23.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/colormap-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/colormap-checkpoint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/corr_change-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/corr_change-checkpoint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/icops_final-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/icops_final-checkpoint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/main-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/main-checkpoint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/subplots-checkpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/subplots-checkpoint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3D/add_dimension.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/3D/add_dimension.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3D/multi_dimensional_modeling.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/3D/multi_dimensional_modeling.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/add_energy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/add_energy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/corr_change.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/corr_change.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/definitions_domain_parameters_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/definitions_domain_parameters_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/energy_2nd_order_godunov.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/energy_2nd_order_godunov.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/energy_addition_101322.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/energy_addition_101322.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Add Energy/energy_correction_101822.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/energy_correction_101822.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/energy_correction_intrinsic_variables_10_21_22.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/energy_correction_intrinsic_variables_10_21_22.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/energy_roe.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/energy_roe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Add Energy/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/oop_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/oop_code.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/plotting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/plotting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/scalar11_3_2022.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/scalar11_3_2022.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/subplots.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/subplots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/test_convolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/test_convolution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Add Energy/test_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Add Energy/test_corr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DMD/DMDTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/DMD/DMDTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/cauchy_momentum_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/cauchy_momentum_solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/colormap.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/colormap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/continuity_roe_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/continuity_roe_solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/ep_corr_vs_no_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/ep_corr_vs_no_corr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/euler_poisson_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/euler_poisson_solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/godunov_save.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_save.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/godunov_scalar_continuity.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_scalar_continuity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/godunov_scheme.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_scheme.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/godunov_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/godunov_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/icops_final.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/icops_final.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/phi_corr_v_nocorr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/phi_corr_v_nocorr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/poisson_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/poisson_solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/roe_rewrite.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_rewrite.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/roe_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/roe_solver_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_solver_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/roe_solver_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/roe_solver_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old/save.py" beforeDir="false" afterPath="$PROJECT_DIR$/Old/save.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,22 +87,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/chris/1DNumericalPDE",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/chris/MSU/MSU Research/Multiprocessing&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\chris\1DNumericalPDE\Add Energy" />
       <recent name="C:\Users\chris\1DNumericalPDE\Old" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="energy_correction_101822" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.6_12_23">
+    <configuration name="5_15_23" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="1DNumericalPDE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -69,7 +114,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Add Energy/energy_correction_101822.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Add Energy/5_15_23.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -78,7 +123,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="euler_poisson_solver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="6_12_23" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="1DNumericalPDE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -86,11 +131,53 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/HDFT Paper" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\chris\1DNumericalPDE\Old\euler_poisson_solver.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/HDFT Paper/6_12_23.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="7_3_23" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="1DNumericalPDE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Add Energy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Add Energy/7_3_23.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="fourier_convolution_practice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="1DNumericalPDE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/3D" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3D/fourier_convolution_practice.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -120,10 +207,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="plotting" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="1DNumericalPDE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Add Energy" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Add Energy/plotting.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.energy_correction_101822" />
-        <item itemvalue="Python.euler_poisson_solver" />
+        <item itemvalue="Python.6_12_23" />
+        <item itemvalue="Python.7_3_23" />
+        <item itemvalue="Python.plotting" />
+        <item itemvalue="Python.5_15_23" />
+        <item itemvalue="Python.fourier_convolution_practice" />
       </list>
     </recent_temporary>
   </component>
@@ -220,7 +331,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666029962321</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Change Vector to Scalar&#10;Fixed Imshow&#10;2D FFT Done&#10;&#10;scalar11_3_2022.py">
+      <created>1667804406714</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1667804406714</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -243,6 +361,48 @@
     <MESSAGE value="Fixed Correlations&#10;Next: Subplots" />
     <MESSAGE value="Add Jupytr Notebooks" />
     <MESSAGE value="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Energy&#10;&#10;First Attempt&#10;energy_addition_101322.py&#10;&#10;Evolve Extrinsic Variables - Diffusive Algorithm + Needs Correlations&#10;energy_correction_101822.py" />
+    <MESSAGE value="Change Vector to Scalar&#10;Fixed Imshow&#10;2D FFT Done&#10;&#10;scalar11_3_2022.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change Vector to Scalar&#10;Fixed Imshow&#10;2D FFT Done&#10;&#10;scalar11_3_2022.py" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Add Energy/5_15_23.py</url>
+          <line>191</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Add Energy/5_15_23.py</url>
+          <line>68</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Add Energy/5_15_23.py</url>
+          <line>31</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Add Energy/5_15_23.py</url>
+          <line>44</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Add Energy/5_15_23.py</url>
+          <line>43</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Add Energy/5_15_23.py</url>
+          <line>164</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Add Energy/5_15_23.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

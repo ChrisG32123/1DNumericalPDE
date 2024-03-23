@@ -1,52 +1,58 @@
 import matplotlib.pyplot as plt
-import definitions_domain_parameters_functions
+import numpy as np
 
 
-class plot(definitions_domain_parameters_functions):
-    def plot():
-        # Plotting
-        for ii in range(len(snap_n)):
-            plt.plot(x, snap_n[ii], label="n @ T = " + str(ii * dt * T / snaps))
-        plt.title("Density: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
+class ArrayVisualizer:
+    def __init__(self, arrays, type):
+        self.arrays = arrays
+        self.axes = []
+
+        if type == "conserved":
+             = self.arrays.shape()
+        else:
+
+
+
+    def color_plot(self):
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
+        for i, array in enumerate(self.arrays):
+            plt.imshow(array, cmap='viridis')
+            plt.colorbar()
+            plt.show()
+
+
+    def line_plot(self):
+        num_rows, num_cols = self.array.shape
+
+        # Plotting each row as a separate line
+        for i in range(num_rows):
+            plt.plot(self.array[i, :], label=f"Row {i + 1}")
+
         plt.legend()
+        plt.xlabel('Column')
+        plt.ylabel('Value')
+        plt.title('Line Plots')
         plt.show()
 
-        plt.figure()
-        plt.plot(x, n_IC, label="nc @ T = 0")
-        print(n_IC)
-        for ii in range(len(snap_n)):
-            plt.plot(x, snap_nc[ii], label="nc @ T = " + str(ii * dt * T / snaps))
-        plt.title("Density: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-        plt.legend()
-        plt.show()
 
-        #
-        # # Color Map
-        # y = np.linspace(0, t, snaps + 1)
-        # xx,yy = np.meshgrid(x, y, sparse=False, indexing='xy')
-        #
-        # plt.figure()
-        # clr = plt.contourf(xx, yy, snap_n)
-        # plt.title("Density: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0) + " No Correlations")
-        # plt.colorbar()
-        # plt.show()
-        #
-        # plt.figure()
-        # clr = plt.contourf(xx, yy, snap_nc)
-        # plt.title("Density: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0) + " Correlations")
-        # plt.colorbar()
-        # plt.show()
+    def generate_line_plot(self, array):
+        for i, array in enumerate(self.arrays):
+            plt.plot(array, cmap='viridis')
+            plt.show()
 
-        # plt.figure()
-        # for ii in range(len(snap_v)):
-        #     plt.plot(x, snap_v[ii], label="v @ T = " + str(ii * dt * T / snaps))
-        # plt.title("Velocity: Gamma = " + str(Gamma))
-        # plt.legend()
-        #
-        # plt.figure()
-        # for ii in range(len(snap_phi)):
-        #     plt.plot(x, snap_phi[ii], label="phi @ T = " + str(ii * dt * T / snaps))
-        # plt.title("Electrostatic Potential: Gamma = " + str(Gamma))
-        # plt.legend()
 
-        plt.show(block=True)
+    def generate_color_plot(self):
+        for i, array in enumerate(self.arrays):
+            self.color_plot(array)
+
+
+# Example usage
+arrays = [
+    np.random.rand(100, 100),
+    np.random.rand(100, 100),
+    np.random.rand(100, 100)
+]
+
+visualizer = ArrayVisualizer(arrays)
+visualizer.color_plots(arrays)

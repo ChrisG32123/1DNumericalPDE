@@ -1,17 +1,8 @@
-from oop_code import domain, simulate, plotting
-from DMD.DMDTest import DMDTest
-import matplotlib.pyplot as plt
-import numpy as np
-import sympy as sp
-import time
-import energy_addition_101322
-import energy_correction_101822
-import energy_correction_intrinsic_variables_10_21_22
-import scalar11_3_2022
-import energy_2nd_order_godunov
-import energy_roe
+import advection_energy_11_20_222
+import fix_eqs_12_5_22
+import fix_eqs_12_19_22
 
-# Xpts = int(1e2)  # Grid Points
+# nx = int(1e2)  # Grid Points
 # X0, Xf = 0, 10  # Space Domain
 # dt = 1e-3  # Time Step Size
 # T0, Tf = 0, 1  # Time Domain
@@ -28,17 +19,22 @@ def main():
     # energy_2nd_order_godunov.solve()
     # energy_roe.solve()
     # energy_correction_intrinsic_variables_10_21_22.solve()
-    scalar11_3_2022.solve()
+    # scalar11_3_2022.solve()
+    # each_field_at_a_time_11_13_22.solve()
+    # add_energy_upwinding_11_14_22.solve()
+    advection_energy_11_20_222.solve()
+    # fix_eqs_12_5_22.solve()
+    # fix_eqs_12_19_22.solve()
 
 # Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main
-# Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main
+# Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main Main/
 main()
 
-    # d1 = domain(Xpts, X0, Xf, dt, T0, Tf, totsnaps, Gamma_0, kappa_0, beta)
+    # d1 = domain(nx, X0, Xf, dt, T0, Tf, totsnaps, Gamma_0, kappa_0, beta)
     #
-    # rhoIC = rho_0 * np.ones(Xpts)
-    # mIC = np.zeros(Xpts)
-    # eIC = np.zeros(Xpts)
+    # rhoIC = rho_0 * np.ones(nx)
+    # mIC = np.zeros(nx)
+    # eIC = np.zeros(nx)
     # s1 = simulate(d1, rhoIC, mIC, eIC)
     #
     # data = np.ndarray((100,len(s1.rho)))
@@ -107,7 +103,7 @@ main()
 #     # densities_c = []
 #     # for ii in range(len(Gamma)):
 #     #     for jj in range(len(kappa)):
-#     #         snap_n, snap_nc, L, t = subplot(Gamma[ii], kappa[jj])
+#     #         snap_n, snap_nc, Xlngth, t = subplot(Gamma[ii], kappa[jj])
 #     #
 #     #         densities.append(snap_n)
 #     #         densities_c.append(snap_nc)
@@ -123,7 +119,7 @@ main()
 #     # for ii in range(3):
 #     #     for jj in range(3):
 #     #         im = axes[ii][jj].imshow(densities[ii+jj], vmin=minmin, vmax=maxmax,
-#     #                                  extent=(0,L,0,t), aspect='auto', cmap='viridis')
+#     #                                  extent=(0,Xlngth,0,t), aspect='auto', cmap='viridis')
 #     #         axes[ii][jj].set_title('Γ = ' + str(Gamma[ii]) + ', κ = ' + str(kappa[jj]))
 #     #         axes[ii][jj].set_ylabel("Time")
 #     #         axes[ii][jj].set_xlabel("Space")

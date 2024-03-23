@@ -113,7 +113,7 @@ def icops():
             # Compute RHS
             phi = compute_phi(n, phi, A)
             if correlations:
-                # f_corr = nonisotropic_correlations(n,n3,x,x3,f_corr)
+                # f_corr = nonisotropic_correlations(n,n3,X,x3,f_corr)
                 f_corr = fft_correlations(k,n,Gamma,kappa)
                 rhs = f_corr - Gamma_0 * (phiR - phiL) / dx
             else:
@@ -176,15 +176,15 @@ def icops():
     kappa_0 = float(input("Value of kappa "))  # screening something
 
     # Dispersion Relation
-    # freq = 2 * np.pi / L
+    # freq = 2 * np.pi / Xlngth
     # omega = np.sqrt((freq ** 2) + 3 * Gamma_0)
     # print(omega)
 
     # Initial Conditions
-    # n_IC = rho_0 * np.ones(N)
-    # n_IC[0:int(N / 4)] = rho_0 / 2
-    # n_IC[int(N / 4):int(3 * N / 4)] = 3 * rho_0 / 2
-    # n_IC[int(3 * N / 4):N] = rho_0 / 2
+    # n_IC = rho_0 * np.ones(nx)
+    # n_IC[0:int(nx / 4)] = rho_0 / 2
+    # n_IC[int(nx / 4):int(3 * nx / 4)] = 3 * rho_0 / 2
+    # n_IC[int(3 * nx / 4):nx] = rho_0 / 2
     n_IC = n_0 * np.exp(-(x - L / 2) ** 2)
     v_IC = np.zeros(N)
 
@@ -220,12 +220,12 @@ def icops():
     # colormap(xx, yy, (snap_nc - snap_n) / rho_0)
     # plt.title("Density Difference: (No Correlations - Correlations) / Mean")
 
-    # plot(x,snap_n)
+    # plot(X,snap_n)
     # plt.title("Density: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
-    # plot(x, snap_nc)
+    # plot(X, snap_nc)
     # plt.title("Density: Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
     #
-    # # plot(x,snap_v)
+    # # plot(X,snap_v)
     # # plt.title("Velocity: No Correlations: Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
 
     plt.show()

@@ -27,7 +27,7 @@ def poisson():
     # Modified Thomas algorithm %
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    # Define f(x)
+    # Define f(X)
     f = - 4 * np.pi * dx * dx * n
 
     # First sweep

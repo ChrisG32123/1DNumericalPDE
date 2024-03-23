@@ -60,7 +60,7 @@ def main():
     # densities_c = []
     # for ii in range(len(Gamma)):
     #     for jj in range(len(kappa)):
-    #         snap_n, snap_nc, L, t = subplot(Gamma[ii], kappa[jj])
+    #         snap_n, snap_nc, Xlngth, t = subplot(Gamma[ii], kappa[jj])
     #
     #         densities.append(snap_n)
     #         densities_c.append(snap_nc)
@@ -76,7 +76,7 @@ def main():
     # for ii in range(3):
     #     for jj in range(3):
     #         im = axes[ii][jj].imshow(densities[ii+jj], vmin=minmin, vmax=maxmax,
-    #                                  extent=(0,L,0,t), aspect='auto', cmap='viridis')
+    #                                  extent=(0,Xlngth,0,t), aspect='auto', cmap='viridis')
     #         axes[ii][jj].set_title('Γ = ' + str(Gamma[ii]) + ', κ = ' + str(kappa[jj]))
     #         axes[ii][jj].set_ylabel("Time")
     #         axes[ii][jj].set_xlabel("Space")

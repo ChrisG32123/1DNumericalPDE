@@ -24,7 +24,7 @@ rc('font', size=14)
 #             Solving 1-D Euler system of equations
 #                     using the Roe scheme
 #
-#             dq_i/dt + df_i/dx = 0, for x \in [a,b]
+#             dq_i/dt + df_i/dx = 0, for X \in [a,b]
 #
 # This code solves the Sod's shock tube problem (IC=1)
 #
@@ -131,7 +131,7 @@ def flux_roe(q, dx, gamma, a, nx):
         Phi[:, j] = np.dot(A, wdif)
 
     # ==============================================================
-    # Compute Phi=(F(W_{j+1}+F(W_j))/2-|A_{j+1/2}| (W_{j+1}-W_j)/2
+    # Compute Phi=(F_fourier(W_{j+1}+F_fourier(W_j))/2-|A_{j+1/2}| (W_{j+1}-W_j)/2
     # ==============================================================
     F = func_flux(q, gamma);
     Phi = 0.5 * (F[:, 0:nx - 1] + F[:, 1:nx]) - 0.5 * Phi
@@ -193,7 +193,7 @@ elif IC == 4:
     r0[halfcells:] = 0.125;
     tEnd = 0.17;
 elif IC == 5:
-    print("Configuration 5, Lax test case: M. Arora and P.L. Roe: JCP 132:3-11, 1997")
+    print("Configuration 5, Lax test case: M. Arora and P.Xlngth. Roe: JCP 132:3-11, 1997")
     p0[:halfcells] = 3.528;
     p0[halfcells:] = 0.571;
     u0[:halfcells] = 0.698;
@@ -202,7 +202,7 @@ elif IC == 5:
     r0[halfcells:] = 0.5;
     tEnd = 0.15;
 elif IC == 6:
-    print("Configuration 6, Mach = 3 test case: M. Arora and P.L. Roe: JCP 132:3-11, 1997")
+    print("Configuration 6, Mach = 3 test case: M. Arora and P.Xlngth. Roe: JCP 132:3-11, 1997")
     p0[:halfcells] = 10.33;
     p0[halfcells:] = 1.0;
     u0[:halfcells] = 0.92;
@@ -219,18 +219,18 @@ if (False):
     # plt.title('Lax-Wendroff scheme')
     plt.plot(x, r0, 'k-')
     plt.ylabel('$rho$', fontsize=18)
-    plt.tick_params(axis='x', bottom=False, labelbottom=False)
+    plt.tick_params(axis='X', bottom=False, labelbottom=False)
     plt.grid(True)
 
     ax2 = plt.subplot(4, 1, 2)
     plt.plot(x, u0, 'r-')
     plt.ylabel('$U$', fontsize=18)
-    plt.tick_params(axis='x', bottom=False, labelbottom=False)
+    plt.tick_params(axis='X', bottom=False, labelbottom=False)
     plt.grid(True)
     ax3 = plt.subplot(4, 1, 3)
     plt.plot(x, p0, 'b-')
     plt.ylabel('$P$', fontsize=18)
-    plt.tick_params(axis='x', bottom=False, labelbottom=False)
+    plt.tick_params(axis='X', bottom=False, labelbottom=False)
     plt.grid(True)
 
     ax4 = plt.subplot(4, 1, 4)
@@ -238,7 +238,7 @@ if (False):
     plt.ylabel('$E$', fontsize=18)
     plt.grid(True)
     plt.xlim(x_ini, x_fin)
-    plt.xlabel('x', fontsize=18)
+    plt.xlabel('X', fontsize=18)
     plt.subplots_adjust(left=0.2)
     plt.subplots_adjust(bottom=0.15)
     plt.subplots_adjust(top=0.95)
@@ -280,17 +280,17 @@ while t < tEnd:
         # plt.title('Roe scheme')
         plt.plot(x, rho, 'k-')
         plt.ylabel('$rho$', fontsize=16)
-        plt.tick_params(axis='x', bottom=False, labelbottom=False)
+        plt.tick_params(axis='X', bottom=False, labelbottom=False)
         plt.grid(True)
         plt.subplot(4, 1, 2)
         plt.plot(x, u, 'r-')
         plt.ylabel('$U$', fontsize=16)
-        plt.tick_params(axis='x', bottom=False, labelbottom=False)
+        plt.tick_params(axis='X', bottom=False, labelbottom=False)
         plt.grid(True)
         plt.subplot(4, 1, 3)
         plt.plot(x, p, 'b-')
         plt.ylabel('$p$', fontsize=16)
-        plt.tick_params(axis='x', bottom=False, labelbottom=False)
+        plt.tick_params(axis='X', bottom=False, labelbottom=False)
         plt.grid(True)
 
         plt.subplot(4, 1, 4)
@@ -298,7 +298,7 @@ while t < tEnd:
         plt.ylabel('$E$', fontsize=16)
         plt.grid(True)
         plt.xlim(x_ini, x_fin)
-        plt.xlabel('x', fontsize=16)
+        plt.xlabel('X', fontsize=16)
         plt.subplots_adjust(left=0.2)
         plt.subplots_adjust(bottom=0.15)
         plt.subplots_adjust(top=0.95)

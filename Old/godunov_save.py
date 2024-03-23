@@ -81,7 +81,7 @@ def godunov_solve():
     T = int(1e3)  # Time Steps 5e3
     L = 10  # Domain Size
     x = np.linspace(0, L - L / N, N)  # Domain
-    # x3 = np.linspace(-L, 2 * L - L / N, 3 * N)
+    # x3 = np.linspace(-Xlngth, 2 * Xlngth - Xlngth / nx, 3 * nx)
     dx = x[2] - x[1]  # Grid Size
     dt = 1e-3  # Time Step Size
     lambda_ = dt / dx
@@ -91,8 +91,8 @@ def godunov_solve():
     snaps = int(input("Number of Snapshots "))  # Number of Snapshots
     Gamma_0 = float(input("Value of Gamma "))  # Coulomb Coupling Parameter
     kappa_0 = float(input("Value of kappa "))  # screening something
-    # rho = np.zeros(N)
-    # f_corr = np.zeros(N)
+    # rho = np.zeros(nx)
+    # f_corr = np.zeros(nx)
 
     # Initial Conditions
     n_IC = n_0 * np.ones(N)
@@ -105,7 +105,7 @@ def godunov_solve():
     v, vL, vR, flux_v, snap_v = memory_allocation(v_IC)
     # phi, phiL, phiR, A, snap_phi = memory_allocation()
     # nc, ncL, ncR, flux_nc, snap_nc = memory_allocation()
-    # n3 = np.zeros(3 * N)
+    # n3 = np.zeros(3 * nx)
     # vc, vcL, vcR, flux_vc, snap_vc = memory_allocation()
     # phic, phicL, phicR, Ac, snap_phic = memory_allocation()
 

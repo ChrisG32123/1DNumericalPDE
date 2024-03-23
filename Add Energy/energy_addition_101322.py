@@ -79,7 +79,7 @@ def solve():
 
     # Initial Conditions & Initialization
     ICfreq = 2* np.pi / L       # Enforce Periodicity of IC
-    ntot[snap,:, ::int(N/2)] = 3/2 * n_0            # n_0 * np.ones(N)
+    ntot[snap,:, ::int(N/2)] = 3/2 * n_0            # mean_n * np.ones(nx)
     ntot[snap, :, int(N/2)::] = 1 / 2 * n_0
     utot[snap,:] = np.ones(N)
     etot[snap,:] = np.ones(N)
@@ -109,8 +109,8 @@ def solve():
         phi = solvephi(n)
 
         # Solve Correlation
-        # ucorr = np.array([np.zeros(N), fft_correlations(k,n[1], Gamma_0, kappa_0)])          # np.zeros((2,N))           # TODO: Add Correlations
-        # ecorr = np.zeros((2,N))           # TODO: Add Correlations
+        # ucorr = np.array([np.zeros(nx), fft_correlations(k,n[1], Gamma_0, kappa_0)])          # np.zeros((2,nx))           # TODO: Add Correlations
+        # ecorr = np.zeros((2,nx))           # TODO: Add Correlations
 
         # Right Hand Side
         # urhs = ucorr - derivative(phi)      # TODO: LINE CHANGE
@@ -120,7 +120,7 @@ def solve():
         sys, sysflux = np.array([n, u, e]), np.array([nflux, uflux, eflux])
         sysL, sysR = np.roll(sys[:, :, :], 1, axis=-1), np.roll(sys[:, :, :], -1, axis=-1)
         sysfluxL, sysfluxR = np.roll(sysflux[:, :, :], 1, axis=-1), np.roll(sysflux[:, :, :], -1, axis=-1)
-        # sysrhs = np.array([np.zeros((2,N)), urhs, erhs])        # TODO: LINE CHANGE
+        # sysrhs = np.array([np.zeros((2,nx)), urhs, erhs])        # TODO: LINE CHANGE
 
         # Lax-Friedrichs
         sys = .5 * (sysL + sysR) - .5 * lmbd * (sysfluxR - sysfluxL) # + dt * sysrhs      # TODO: LINE CHANGE
@@ -188,7 +188,7 @@ def solve():
     #     for jj in range(len(syssnaptot[ii])):
     #         plt.figure()
     #         for kk in range(len(syssnaptot[ii,jj])):
-    #             plt.plot(x, syssnaptot[ii,jj,kk], label= syssnapnameabrv[ii][jj] + " @ T = " + str(kk * dt * T / snaps))
+    #             plt.plot(X, syssnaptot[ii,jj,kk], label= syssnapnameabrv[ii][jj] + " @ T = " + str(kk * dt * T / snaps))
     #         plt.title(syssnapname[ii][jj] + " Gamma_0 = " + str(Gamma_0) + " kappa_0 = " + str(kappa_0))
     #         plt.legend()
 
