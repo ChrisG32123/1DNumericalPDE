@@ -1,0 +1,8 @@
+{
+    "grid_size": 100,
+    "dx": 1.0,
+    "dt": 0.1,
+    "density_initial": [1.0, 1.0, 1.0, ...],  // Populate with actual initial values
+    "vel_initial": [0.0, 0.0, 0.0, ...],      // Populate with actual initial values
+    "temp_initial": [300.0, 300.0, 300.0, ...] // Populate with actual initial values
+}
