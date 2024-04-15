@@ -20,6 +20,12 @@ class FieldVariable:
     # Return the array shifted left
     def l(self, array):
         return np.roll(array, 1)
+    
+    def ddx(self, array, direction):
+        if direction == 'l':
+            return (array - self.l(array)) / dx
+        elif direction == 'r':
+            return (self.r(array) - array) / dx
 
     # Placeholder method for update rule, to be implemented in subclasses
     def update(self):
@@ -86,13 +92,11 @@ class Density(FieldVariable):
         for i in range(self.grid_size):
             if self.velocity.values[i] >= 0:
                 # Upwind using left values for positive velocity
-                flux = self.values[i] * self.velocity.values[i]
-                flux_left = self.l(self.values)[i] * self.velocity.values[i]
+                flux = self.ddx(self.values[i] * self.velocity.values[i], 'l')
             else:
                 # Upwind using right values for negative velocity
-                flux = self.r(self.values)[i] * self.velocity.values[i]
-                flux_left = self.values[i] * self.velocity.values[i]
-            new_values[i] = self.values[i] - self.dt * (flux - flux_left) / self.dx
+                flux = self.ddx(self.values[i] * self.velocity.values[i], 'r')
+            new_values[i] = self.values[i] - self.dt * flux
 
         # Update the field variable with the new computed values
         self.values = new_values
@@ -240,17 +244,43 @@ class Plotter:
         return fig, ax
     
     @staticmethod
-    def plot_wavelet_transform(signal, scales, waveletname='cmor', title='Wavelet Transform'):
-        # coefficients, frequencies = pywt.cwt(signal, scales, waveletname)
-        # fig, ax = plt.subplots()
-        # cax = ax.contourf(coefficients, cmap='coolwarm')
-        # fig.colorbar(cax)
-        # ax.set_title(title)
-        # ax.set_xlabel('Time')
-        # ax.set_ylabel('Frequency')
-        # plt.show(block=False)
-        # return fig, ax
-        pass
+    def plot_wavelet_transform(signal, scales, dt, waveletname='cmor', title='Wavelet Transform'):
+        import pywt
+
+        duration = len(signal) * dt
+        sampling_rate = 1 / dt
+
+        # Perform the Continuous Wavelet Transform (CWT)
+        coefficients, frequencies = pywt.cwt(signal, scales, waveletname, 1 / sampling_rate)
+        
+        # Plot the wavelet power spectrum
+        fig, ax = plt.subplots(figsize=(10, 4))
+        
+        # Determine the extent of the plot
+        extent = [0, duration, 0, len(frequencies) - 1]
+        
+        # Plot the coefficients with an image plot
+        im = ax.imshow(np.abs(coefficients), extent=extent, cmap='jet', aspect='auto', origin='lower', vmax=abs(coefficients).max(), vmin=-abs(coefficients).max())
+        
+        # Create an array of y positions from 0 to the number of frequencies, this will be the new y-axis
+        y_positions = np.linspace(start=0, stop=len(frequencies) - 1, num=len(frequencies))
+        
+        # Set the y-ticks to correspond to the positions we just created
+        ax.set_yticks(y_positions[::len(y_positions) // 10])
+        
+        # Set the y-tick labels to show the frequency values
+        ax.set_yticklabels(np.round(frequencies, decimals=2)[::len(y_positions) // 10])
+        
+        # Add the plot details
+        ax.set_title(title)
+        ax.set_xlabel('Time (seconds)')
+        ax.set_ylabel('Frequency (Hz)')
+        
+        # Add a colorbar for the magnitude
+        fig.colorbar(im, ax=ax, label='Magnitude')
+        
+        plt.show(block=False)
+        return fig, ax
 
     @staticmethod
     def animate_solution(data, x_domain, y_label='Value', title='Solution Evolution', interval=200, cmap_type='hot'):
@@ -286,7 +316,7 @@ class Plotter:
 
         anim = FuncAnimation(fig, animate, init_func=init, frames=len(data), interval=interval, blit=True)
 
-        plt.show(block=False)
+        plt.show(block=True)
         return anim
 
 
@@ -374,7 +404,7 @@ specific_point_series = [snapshot[specific_grid_point] for snapshot in density_s
 # Define scales for the wavelet transform
 scales = np.arange(1, 128)
 # Plotting Wavelet Transform of the specific grid point over time
-Plotter.plot_wavelet_transform(specific_point_series, scales, 'cmor', f'Wavelet Transform of Density at Grid Point {specific_grid_point}')
+Plotter.plot_wavelet_transform(specific_point_series, scales, dt, 'cmor', f'Wavelet Transform of Density at Grid Point {specific_grid_point}')
 
 # Animating the solution for density
 Plotter.animate_solution(density_snapshots, space_domain, 'Density Value', 'Evolution of Density')
@@ -385,12 +415,12 @@ Plotter.animate_solution(temperature_snapshots, space_domain, 'Temperature Value
 
 plt.show(block=True)
 
-#########################################################################################################################################################
-#########################################################################################################################################################
-#########################################################################################################################################################
+################################
+########   Analysis   ##########
+################################
 
 # Initialize the DMD object with svd_rank -1 which includes all the singular values
-dmd_solver = DMD(svd_rank=-1)
+dmd_solver = DMD(svd_rank=10)
 dmd_solver.fit(density_snapshots.T)
 
 # Reconstruct the density matrix using DMD modes
