@@ -2,7 +2,7 @@ import pickle
 from tensorflow.keras.models import load_model
 
 # Function to save all relevant model data
-def save_model_data(model, history, test_loss, predictions, metrics, model_path='final_model.h5', history_path='training_history.pkl', results_path='model_results.pkl'):
+def save_model_data(model, history, predictions, test_metrics, model_path='final_model.h5', history_path='training_history.pkl', results_path='model_results.pkl'):
     # Save the model
     model.save(model_path)
     
@@ -12,9 +12,8 @@ def save_model_data(model, history, test_loss, predictions, metrics, model_path=
     
     # Save the test loss, predictions, and other metrics
     results = {
-        'test_loss': test_loss,
-        'predictions': predictions,
-        'metrics': metrics
+        'test_metrics': test_metrics,
+        'predictions': predictions
     }
     with open(results_path, 'wb') as f:
         pickle.dump(results, f)
