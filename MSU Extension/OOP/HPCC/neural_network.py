@@ -115,6 +115,10 @@ history = model.fit(
     callbacks=[reduce_lr, early_stopping, model_checkpoint, csv_logger]  # Add early_stopping if you wish to use it
 )
 
+# Evaluate model
+test_metrics = model.evaluate(testing_data_normalized, testing_data_normalized, return_dict=True)
+predictions = model.predict(testing_data_normalized)
+
 #################
 ### Save Stuff ##
 #################
@@ -126,4 +130,4 @@ np.savez('simulation_data.npz', training_data=training_data, testing_data=testin
 model_path='final_model.h5'
 history_path='training_history.pkl'
 results_path='model_results.pkl'
-save_model_data(model, history.history, test_loss, predictions, metrics, model_path=model_path, history_path=history_path, results_path=results_path)
+save_model_data(model, history.history, predictions, test_metrics, model_path=model_path, history_path=history_path, results_path=results_path)
