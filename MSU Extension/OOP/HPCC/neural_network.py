@@ -119,24 +119,30 @@ history = model.fit(
 test_metrics = model.evaluate(testing_data_normalized, testing_data_normalized, return_dict=True)
 predictions = model.predict(testing_data_normalized)
 
-#################
-### Save Stuff ##
-#################
+###########################
+### Save Run Information ##
+###########################
 
-# Save the data to disk for later use
-np.savez('simulation_data.npz', training_data=training_data, testing_data=testing_data)
+simulation_data_path = 'simulation_data.npz'
+model_path = 'model.h5'
+history_path = 'history.pkl'
+predictions_path = 'predictions.pkl'
+metrics_path = 'metrics.pkl'
+
+# Save Data
+np.savez(simulation_data_path, training_data=training_data, testing_data=testing_data)
 
 # Save Model
-model.save('model.h5')
+model.save(model_path)
 
 # Save History
-with open('history.pkl', 'wb') as f:
+with open(history_path, 'wb') as f:
     pickle.dump(history.history, f)
 
 # Save Predictions
-with open('predictions.pkl', 'wb') as f:
+with open(predictions_path, 'wb') as f:
     pickle.dump(predictions, f)
 
 # Save Metrics
-with open('metrics.pkl', 'wb') as f:
+with open(metrics_path, 'wb') as f:
     pickle.dump(test_metrics, f)
