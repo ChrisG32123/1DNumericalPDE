@@ -75,7 +75,7 @@ model.summary()
 # Define the ReduceLROnPlateau callback
 reduce_lr = ReduceLROnPlateau(
     monitor='val_loss',
-    factor=0.1,  # Reduction factor; new_lr = lr * factor
+    factor=0.5,  # Reduction factor; new_lr = lr * factor
     patience=5,  # Number of epochs with no improvement after which learning rate will be reduced
     min_lr=1e-6,  # Lower bound on the learning rate
     verbose=1  # If set to 1, the method will print messages when reducing the learning rate
@@ -89,7 +89,7 @@ early_stopping = keras.callbacks.EarlyStopping(
 
 # ModelCheckpoint to save the best model during training
 model_checkpoint = ModelCheckpoint(
-    'model_best.h5',
+    'model.h5',
     save_best_only=True,
     monitor='val_loss',
     mode='min',
@@ -112,7 +112,7 @@ history = model.fit(
     epochs=100,
     batch_size=32, 
     validation_split=0.2,
-    callbacks=[reduce_lr, early_stopping, model_checkpoint, csv_logger]  # Add early_stopping if you wish to use it
+    callbacks=[reduce_lr, early_stopping, model_checkpoint, csv_logger]
 )
 
 # Evaluate model
@@ -127,7 +127,16 @@ predictions = model.predict(testing_data_normalized)
 np.savez('simulation_data.npz', training_data=training_data, testing_data=testing_data)
 
 # Save Model
-model_path='final_model.h5'
-history_path='training_history.pkl'
-results_path='model_results.pkl'
-save_model_data(model, history.history, predictions, test_metrics, model_path=model_path, history_path=history_path, results_path=results_path)
+model.save('model.h5')
+
+# Save History
+with open('history.pkl', 'wb') as f:
+    pickle.dump(history.history, f)
+
+# Save Predictions
+with open('predictions.pkl', 'wb') as f:
+    pickle.dump(predictions, f)
+
+# Save Metrics
+with open('metrics.pkl', 'wb') as f:
+    pickle.dump(test_metrics, f)
