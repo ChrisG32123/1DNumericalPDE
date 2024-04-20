@@ -234,7 +234,7 @@ class Orchestrator:
             np.isnan(self.species.vel.values).any() or np.isinf(self.species.vel.values).any() or
             np.isnan(self.species.temp.values).any() or np.isinf(self.species.temp.values).any()):
             return True
-        if not (np.all(self.species.density.values > 0) and np.all(self.species.density.values <= 2)):
+        if not (np.all(self.species.density.values > 0) and np.all(self.species.density.values <= 1)):
             return True
         return False
     

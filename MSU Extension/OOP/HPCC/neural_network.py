@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import pickle
 from tensorflow.keras.models import load_model
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import os
 
 from generate_simulation_data import *
 from ml_functions import *
@@ -76,7 +77,7 @@ model.summary()
 reduce_lr = ReduceLROnPlateau(
     monitor='val_loss',
     factor=0.5,  # Reduction factor; new_lr = lr * factor
-    patience=5,  # Number of epochs with no improvement after which learning rate will be reduced
+    patience=3,  # Number of epochs with no improvement after which learning rate will be reduced
     min_lr=1e-6,  # Lower bound on the learning rate
     verbose=1  # If set to 1, the method will print messages when reducing the learning rate
 )
@@ -123,11 +124,16 @@ predictions = model.predict(testing_data_normalized)
 ### Save Run Information ##
 ###########################
 
-simulation_data_path = 'simulation_data.npz'
-model_path = 'model.h5'
-history_path = 'history.pkl'
-predictions_path = 'predictions.pkl'
-metrics_path = 'metrics.pkl'
+# Create Paths to Files
+base_directory = "/Users/chrisgerlach/Programming/1DNumericalPDE/MSU Extension/OOP/HPCC/Run Information"
+if not os.path.exists(base_directory):
+    os.makedirs(base_directory)
+
+simulation_data_path = os.path.join(base_directory,'simulation_data.npz')
+model_path = os.path.join(base_directory,'model.h5')
+history_path = os.path.join(base_directory,'history.pkl')
+predictions_path = os.path.join(base_directory,'predictions.pkl')
+metrics_path = os.path.join(base_directory,'metrics.pkl')
 
 # Save Data
 np.savez(simulation_data_path, training_data=training_data, testing_data=testing_data)
