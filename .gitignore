@@ -1,0 +1,12 @@
+# Ignore machine learning models
+*.h5
+*.pth
+
+# Ignore dataset files
+*.csv
+*.npy
+*.npz
+/data/
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
