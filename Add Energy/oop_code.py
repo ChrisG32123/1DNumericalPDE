@@ -6,6 +6,12 @@ import time
 class domain:
     def __init__(self, Xpts, X0, Xf, dt, T0, Tf, totsnaps, Gamma_0, kappa_0, beta):
         self.Xpts = Xpts
+        # Some parts of the code expect the grid size to be stored in an
+        # attribute named ``nx``.  The original implementation did not define
+        # this attribute which resulted in ``AttributeError`` exceptions when
+        # ``domain.nx`` was accessed.  Provide the alias here so both names can
+        # be used interchangeably.
+        self.nx = Xpts
         self.X0 = X0
         self.Xf = Xf
         self.dt = dt
