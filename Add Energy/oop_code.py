@@ -56,6 +56,11 @@ class simulate:
         self.rho, self.rhotot, self.frho, self.frhotot = self.mem(rhoIC)
         self.m, self.mtot, self.fm, self.fmtot = self.mem(mIC)
         self.e, self.etot, self.fe, self.fetot = self.mem(eIC)
+        # ``solve`` repeatedly updates ``self.phi`` using ``solve_phi`` but the
+        # variable is never initialized in the original implementation.  This
+        # leads to an ``AttributeError`` on the first call.  Initialize it here
+        # with zeros so the algorithm can start from a neutral potential.
+        self.phi = np.zeros(self.domain.nx)
 
     def mem(self, uIC):
         utot = np.zeros((2, self.domain.totsnaps, self.domain.nx))

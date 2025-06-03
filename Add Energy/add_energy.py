@@ -110,10 +110,17 @@ class domain:
 
 class simulate:
     def __init__(self, domain, rhoIC, mIC, eIC):
-        self._domain = domain
+        # Store reference to the spatial/temporal discretization.  The original
+        # code saved this under ``_domain`` and then attempted to access
+        # ``self.domain`` elsewhere, which raised ``AttributeError``.  Keep the
+        # public attribute consistent with how it is used later.
+        self.domain = domain
         self._rho, self._rhotot, self._frho, self._frhotot = self.mem(rhoIC)
         self._m, self._mtot, self._fm, self._fmtot = self.mem(mIC)
         self._e, self._etot, self._fe, self._fetot = self.mem(eIC)
+        # Initialize electrostatic potential to avoid missing attribute errors
+        # in ``solve`` when ``self.phi`` is first updated.
+        self.phi = np.zeros(self.domain.nx)
 
     @property
     def rhoIC(self): return self._rhoIC
