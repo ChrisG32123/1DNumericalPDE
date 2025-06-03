@@ -6,6 +6,10 @@ import time
 class domain:
     def __init__(self,Xpts, X0, Xf, dt, T0, Tf, totsnaps, Gamma_0, kappa_0, beta):
         self._Xpts = Xpts
+        # Many helper classes refer to the number of grid points via the
+        # attribute ``nx``.  Define it here to avoid ``AttributeError`` when
+        # those routines access ``domain.nx``.
+        self.nx = Xpts
         self._X0 = X0
         self._Xf = Xf
         self._dt = dt
