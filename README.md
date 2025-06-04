@@ -15,3 +15,11 @@ These interests were reflected in the project as well.
 I explore higher dimensional simulations as well as implement reduced order models, predictive machine learning models, and apply multiple types of spatio-temporal and spectral analysis.
 
 After graduating with an MS in Applied Mathematics, my main intellectual focus shifted to other projects. However, this work is ongoing as I intend to publish these results.
+
+## Installation
+
+To install the Python dependencies used throughout this repository run:
+
+```bash
+pip install -r requirements.txt
+```
