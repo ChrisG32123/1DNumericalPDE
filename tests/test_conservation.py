@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np  # ensure numpy is available for the tests
 
 
 def run_simulation(num_steps=20, num_snapshots=5):
