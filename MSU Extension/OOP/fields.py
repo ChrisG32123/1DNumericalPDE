@@ -7,10 +7,11 @@ from pydmd import DMD
 
 # Base class for field variables
 class FieldVariable:
-    def __init__(self, initial_conditions, grid_size, dx):
+    def __init__(self, initial_conditions, grid_size, dx, dt):
         self.values = initial_conditions
         self.grid_size = grid_size
         self.dx = dx
+        self.dt = dt
         self.snapshots = [np.copy(self.values)]  # Include the initial condition
     
     # Return the array shifted right
@@ -23,9 +24,9 @@ class FieldVariable:
     
     def ddx(self, array, direction):
         if direction == 'l':
-            return (array - self.l(array)) / dx
+            return (array - self.l(array)) / self.dx
         elif direction == 'r':
-            return (self.r(array) - array) / dx
+            return (self.r(array) - array) / self.dx
 
     # Placeholder method for update rule, to be implemented in subclasses
     def update(self):
@@ -39,8 +40,8 @@ class FieldVariable:
 
 # Subclass for the density, which is a field variable
 class Density(FieldVariable):
-    def __init__(self, initial_conditions, grid_size, dx, velocity):
-        super().__init__(initial_conditions, grid_size, dx)
+    def __init__(self, initial_conditions, grid_size, dx, dt, velocity):
+        super().__init__(initial_conditions, grid_size, dx, dt)
         self.velocity = velocity
         self.potential = np.zeros(grid_size)
 
@@ -104,8 +105,8 @@ class Density(FieldVariable):
 
 # Subclass for the velocity, which is a field variable
 class Velocity(FieldVariable):
-    def __init__(self, initial_conditions, grid_size, dx, density, temperature, mass, gamma):
-        super().__init__(initial_conditions, grid_size, dx)
+    def __init__(self, initial_conditions, grid_size, dx, dt, density, temperature, mass, gamma):
+        super().__init__(initial_conditions, grid_size, dx, dt)
         self.density = density
         self.temperature = temperature
         self.mass = mass
@@ -151,8 +152,8 @@ class Velocity(FieldVariable):
 
 
 class Temperature(FieldVariable):
-    def __init__(self, initial_conditions, grid_size, dx, velocity, density, thermal_diffusivity):
-        super().__init__(initial_conditions, grid_size, dx)
+    def __init__(self, initial_conditions, grid_size, dx, dt, velocity, density, thermal_diffusivity):
+        super().__init__(initial_conditions, grid_size, dx, dt)
         self.velocity = velocity
         self.density = density
         self.thermal_diffusivity = thermal_diffusivity
@@ -339,16 +340,12 @@ initial_density = 3/(4*np.pi) + 0.1 * np.sin(3/4 * np.pi * x)  # Initial density
 initial_velocity = np.sin(x)  # Initial velocity
 initial_temperature = 1 + 0.1 * np.cos(x)  # Initial Temperature
 
-# Create field variable instances for density and velocity
-density = Density(initial_density, grid_size, dx, None)  # Temporarily no velocity
-velocity = Velocity(initial_velocity, grid_size, dx, density, None, m, gamma)
-temperature = Temperature(initial_temperature, grid_size, dx, velocity, density, lambda_thermal)
+# Create field variable instances for density, velocity, and temperature
+density = Density(initial_density, grid_size, dx, dt, None)  # Temporarily no velocity
+velocity = Velocity(initial_velocity, grid_size, dx, dt, density, None, m, gamma)
+temperature = Temperature(initial_temperature, grid_size, dx, dt, velocity, density, lambda_thermal)
 density.velocity = velocity # Now update density with the actual velocity instance
 velocity.temperature = temperature # Now update density with the actual temperature instance
-
-density.dt = dt
-velocity.dt = dt
-temperature.dt = dt
 
 # Simulation function
 def run_simulation(density, velocity, temperature, num_steps, plot_frequency, specific_grid_point):
