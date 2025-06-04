@@ -1,4 +1,5 @@
 import numpy as np
+import warnings
 
 class Field:
     def __init__(self, num_points, initial_conditions, dx, dt):
@@ -274,7 +275,10 @@ def run_simulation_with_dynamic_conditions(num_samples, grid_size, num_snapshots
     initial_condition_equilibria_array = []
     initial_condition_perturbation_amplitudes_array = []
 
-    while len(data) < num_samples:
+    attempts = 0
+    max_attempts = num_samples * 10
+    while len(data) < num_samples and attempts < max_attempts:
+        attempts += 1
         initial_condition_types = np.random.choice(['sinusoidal', 'gaussian', 'constant', 'random_noise', 'zero'], 3, replace=True)
         initial_condition_params = {
             'sinusoidal': {'frequency': 2*np.pi / L, 'phase': np.random.uniform(0, 2*np.pi)},
@@ -325,6 +329,11 @@ def run_simulation_with_dynamic_conditions(num_samples, grid_size, num_snapshots
             initial_condition_params_array.append(initial_condition_params)
             initial_condition_equilibria_array.append(np.array([density_equilibrium, velocity_equilibrium, temperature_equilibrium]))
             initial_condition_perturbation_amplitudes_array.append(initial_perturbation_amplitudes)
+
+    if len(data) < num_samples:
+        warnings.warn(
+            f"Only generated {len(data)} of {num_samples} samples after {attempts} attempts"
+        )
 
     data = np.array(data)
     initial_condition_types_array = np.array(initial_condition_types_array)
