@@ -1,70 +1,75 @@
+"""Basic Dynamic Mode Decomposition implementation.
+
+This module provides a small helper class :class:`DMDTest` used in a few of the
+experiments throughout this repository.  The original file was truncated and
+contained unfinished code; it has been replaced with a minimal, self contained
+implementation so that it can be imported without errors.
+"""
+
+from __future__ import annotations
+
 import numpy as np
 import numpy.linalg as la
-import matplotlib.pyplot as plt
 
 
-def DMD(data1, data2, dt, r):
+class DMDTest:
+    """Simple Dynamic Mode Decomposition (DMD).
+
+    Parameters
+    ----------
+    data : :class:`numpy.ndarray`
+        Snapshot matrix where each column corresponds to a state at a
+        particular time.
+    r : int
+        Truncation rank used for the singular value decomposition.
+    dt : float
+        Time step separating the snapshots in ``data``.
+    """
+
+    def __init__(self, data: np.ndarray, r: int, dt: float) -> None:
+        self._data1 = np.asarray(data[:, :-1])
+        self._data2 = np.asarray(data[:, 1:])
+        self.r = r
+        self.dt = dt
+
+        self.modes: np.ndarray | None = None
+        self.eigs: np.ndarray | None = None
+
+    # ------------------------------------------------------------------
+    def DMD(self) -> tuple[np.ndarray, np.ndarray]:
+        """Compute the DMD modes and eigenvalues.
+
+        Returns
+        -------
+        modes : :class:`numpy.ndarray`
+            Array whose columns are the dynamic modes.
+        eigs : :class:`numpy.ndarray`
+            Array of eigenvalues associated with ``modes``.
+        """
+
+        # Singular value decomposition of the first snapshot matrix
+        U, s, Vh = la.svd(self._data1, full_matrices=False)
+
+        # Truncate to the requested rank
+        r = min(self.r, len(s))
+        Ur = U[:, :r]
+        Sr = np.diag(s[:r])
+        Vr = Vh.conj().T[:, :r]
+
+        # Low‑rank linear operator
+        A_tilde = Ur.conj().T @ self._data2 @ Vr @ la.inv(Sr)
+
+        # Eigendecomposition of the reduced operator
+        eigvals, W = la.eig(A_tilde)
+
+        # Construct the DMD modes
+        Phi = self._data2 @ Vr @ la.inv(Sr) @ W
+
+        self.modes = Phi
+        self.eigs = eigvals
+
+        return self.modes, self.eigs
 
 
-    # Calculate SVD
-    U, S, VH = la.svd(data1)
-    V = np.transpose(VH)
+__all__ = ["DMDTest"]
 
-    Ur = U[:, 0:r]
-    Sr = np.diag(S)[0:r, 0:r]
-    Vr = V[:, 0:r]
-
-    # Reduced Rank Matrix
-    Atilde = np.transpose(Ur) @ data2 @ Vr @ la.inv(Sr)
-
-    # Eigenvalues, Eigenvectors of Atilde
-    W, D = la.eig(Atilde)
-
-    # Expansion with DMD Modes
-    Phi = data2 @ Vr @ la.inv(Sr) @ W
-    lmbda = np.diag(D)
-    omega = np.log(lmbda) / dt
-    b = Phi @ data1
-
-    # print(W)
-
-    return b
-
-
-
-# class DMDTest:
-#     def __init__(self, data, r, dt):  # data = 2D array (row = vec{X}, column = t)
-#         self.n, self.m = np.shape(data)
-#         self.data1 = np.copy(data)
-#         self.data2 = np.roll(data, -1, axis = 1)
-#         self.r = r
-#         self.dt = dt
-#
-#         self.Phi = np.array((r, r))
-#         # self.lmbda = np.array(())
-#         # self.omega = np.array(())
-#
-#     def DMD(self):
-#         # Calculate SVD
-#         U, S, VH = la.svd(self.data1)
-#         V = np.transpose(VH)
-#
-#         Ur = U[:, 0:self.r]
-#         Sr = np.diag(S)[0:self.r, 0:self.r]
-#         Vr = V[:, 0:self.r]
-#
-#         # Reduced Rank Matrix
-#         Atilde = np.transpose(Ur) @ self.data2 @ Vr @ la.inv(Sr)
-#
-#         # Eigenvalues, Eigenvectors of Atilde
-#         W, D = la.eig(Atilde)
-#
-#         # Expansion with DMD Modes
-#         self.Phi = self.data2 @ Vr @ la.inv(Sr) @ W
-#         lmbda = np.diag(D)
-#         omega = np.log(lmbda) / self.dt
-#         b = self.Phi @ self.data1
-#
-#         # print(W)
-#
-#         return b
