@@ -1,22 +1,23 @@
 from post243A import solve
-from Old.colormap_test import colormap_trial
-from Old.colormap import color
-from Old.godunov_test import godunov_test
-from Old.godunov_scheme import godunov_solve
-from Old.organized_solve import organized_solve
-from Old.roe_solver import roe_solve
-from Old.roe_solver_2 import roe_solve_2
-from Old.roe_rewrite import roe_rewrite
-from Old.continuity_roe_solver import continuity_roe_solver
-from Old.godunov_scalar_continuity import godunov_scalar_continuity
+import importlib
+colormap_trial = importlib.import_module('Old.03_colormap_test').colormap_trial
+color = importlib.import_module('Old.02_colormap').color
+godunov_test = importlib.import_module('Old.12_godunov_test').godunov_test
+godunov_solve = importlib.import_module('Old.11_godunov_scheme').godunov_solve
+organized_solve = importlib.import_module('Old.14_organized_solve').organized_solve
+roe_solve = importlib.import_module('Old.20_roe_solver').roe_solve
+roe_solve_2 = importlib.import_module('Old.21_roe_solver_2').roe_solve_2
+roe_rewrite = importlib.import_module('Old.19_roe_rewrite').roe_rewrite
+continuity_roe_solver = importlib.import_module('Old.04_continuity_roe_solver').continuity_roe_solver
+godunov_scalar_continuity = importlib.import_module('Old.10_godunov_scalar_continuity').godunov_scalar_continuity
 from test_convolution import test_convolution, half_interval_test_convolution, meyer_convolution, meyer_convolution_1, meyer_convolution_2
-from Old.icops_final import icops
+icops = importlib.import_module('Old.13_icops_final').icops
 from corr_change import corr_change
 from subplots import subplot
 from tester import tester2
-from Old.dispersion_relations import disp_rel
+disp_rel = importlib.import_module('Old.05_dispersion_relations').disp_rel
 from test import test
-from Old.rewrite_jup import rewrite
+rewrite = importlib.import_module('Old.18_rewrite_jup').rewrite
 
 import matplotlib.pyplot as plt
 import numpy as np
